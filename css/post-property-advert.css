@@ -35,6 +35,11 @@ body {
 	font-size: 90%;
 }
 
+.navbar a:hover {
+	background-color: rgb(14, 2, 2);
+	padding: 0.5em;
+}
+
 .navbar a:active {
 	background: #434348;
 }
@@ -223,7 +228,7 @@ main {
 	.propertyad-container {
 		display: flex;
 		flex: 1;
-		background: #5555;
+		background: rgb(241, 233, 247);
 		width: 60vh;
 		height: 75vh;
 		margin: 0 auto;
