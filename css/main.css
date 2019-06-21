@@ -11,7 +11,7 @@ body {
 
 .index-container img{
     width:100%;
-    height: 600px;
+    height: 400px;
     z-index: -1;
     opacity: 0.8;
 }
