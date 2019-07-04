@@ -7,10 +7,11 @@ const router = express.Router();
 
 const {
   createPropAd, updatePropertyAdData, updatePropertyAdStatus,
-  deleteProperty, getAllProperty,
+  deleteProperty, getAllProperty, getSpecificProperty,
 } = PropertyController;
 
 router.get('/', getAllProperty);
+router.get('/:property-id', getSpecificProperty);
 router.post('/', postAdValidator, createPropAd);
 router.patch('/:property-id', updateAdDataValidator, updatePropertyAdData);
 router.patch('/:property-id/sold', updateAdStatusValidator, updatePropertyAdStatus);
