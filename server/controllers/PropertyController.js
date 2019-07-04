@@ -35,7 +35,6 @@ class propertyController {
     });
   }
 
-  
 
   // Update property status
 
@@ -79,7 +78,7 @@ class propertyController {
         message: 'Property does not exist',
       });
     }
-    const deletedProperty = deleteOneProperty(parseInt(id, 10));
+    deleteOneProperty(parseInt(id, 10));
     return res.status(202).json({
       status: 'Success',
       message: 'Property AD deleted successfully',
