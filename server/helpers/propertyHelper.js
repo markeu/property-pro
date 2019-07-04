@@ -21,7 +21,6 @@ export const postAd = (data) => {
   return newPropAd;
 };
 
-
 export const getSpecificProperty = (id) => {
   const propertyType = property.filter(props => props.id === id);
   return propertyType;
@@ -34,4 +33,19 @@ export const changePropStatus = (id, status) => {
   const propertyIndex = property.indexOf(specificProperty);
   property.splice(propertyIndex, 1, updateStatus);
   return updateStatus;
+};
+
+
+export const deleteOneProperty = (id) => {
+  const specificProperty = property.find(props => props.id === id);
+
+  const index = property.indexOf(specificProperty);
+  property.splice(index, 1);
+  return specificProperty;
+};
+
+
+export const SpecificPropertyData = (id) => {
+  const specificPropData = property.find(props => props.id === id);
+  return specificPropData;
 };
