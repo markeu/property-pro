@@ -2,7 +2,6 @@ import property from '../models/property';
 import users from '../models/user';
 
 
-// eslint-disable-next-line import/prefer-default-export
 export const postAd = (data) => {
   const newPropAd = {
     id: property.length + 1,
@@ -20,4 +19,10 @@ export const postAd = (data) => {
   };
   property.push(newPropAd);
   return newPropAd;
+};
+
+
+export const getSpecificProperty = (id) => {
+  const propertyType = property.filter(props => props.id === id);
+  return propertyType;
 };
