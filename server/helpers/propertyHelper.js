@@ -21,6 +21,8 @@ export const postAd = (data) => {
   return newPropAd;
 };
 
+export const getAllProperty = () => property;
+
 export const getSpecificProperty = (id) => {
   const propertyType = property.filter(props => props.id === id);
   return propertyType;
