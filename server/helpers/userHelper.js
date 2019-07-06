@@ -7,11 +7,11 @@ export const signUp = (data) => {
     id: users.length + 1,
     token: generateToken,
     email: data.email,
-    firstName: data.firstName,
-    lastName: data.lastName,
+    first_name: data.first_name,
+    last_name: data.last_name,
     address: data.address,
     password: data.password,
-    isAdmin: false,
+    is_admin: false,
   };
   users.push(newUser);
   return newUser;

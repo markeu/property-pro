@@ -1,21 +1,21 @@
 const validUser = {
 
-  firstName: 'Ikenna',
-  lastName: 'Mark',
+  first_name: 'Ikenna',
+  last_name: 'Mark',
   email: 'Ikennauche@yahoo.com',
   password: 'fredick',
-  isAdmin: null,
+  is_admin: null,
 };
 
 const undefinedFirstName = {
-  lastName: 'Mark',
+  last_name: 'Mark',
   email: 'Ikennauche@yahoo.com',
   password: 'fredick',
 };
 
 const nonStringFirstName = {
-  firstName: 567,
-  lastName: 'Mark',
+  first_name: 567,
+  last_name: 'Mark',
   email: 'Ikennauche@yahoo.com',
   address: 'Abuja',
   password: 'fredick',
@@ -23,39 +23,39 @@ const nonStringFirstName = {
 
 
 const undefinedLastName = {
-  firstName: 'Ikenna',
+  first_name: 'Ikenna',
   email: 'Ikennauche@yahoo.com',
   address: 'Abuja',
   password: 'fredick',
 };
 
 const invalidLastNameLength = {
-  firstName: 'Chioma',
-  lastName: 'u',
+  first_name: 'Chioma',
+  last_name: 'u',
   email: 'chiomab@yahoo.com',
   address: 'Lagos',
   password: '23434',
 };
 
 const nonStringLastName = {
-  firstName: 'uche',
-  lastName: 1223,
+  first_name: 'uche',
+  last_name: 1223,
   email: 'Ikennauche@yahoo.com',
   address: 'Abuja',
   password: 'fredick',
 };
 
 const undefinedEmail = {
-  firstName: 'uche',
-  lastName: 'mark',
+  first_name: 'uche',
+  last_name: 'mark',
   address: 'Abuja',
   password: 'fredick',
 };
 
 
 const nonStringEmail = {
-  firstName: 'uche',
-  lastName: 'mark',
+  first_name: 'uche',
+  last_name: 'mark',
   email: ['Ikennauche@yahoo.com'],
   address: 'Abuja',
   password: 'fredick',
@@ -63,23 +63,23 @@ const nonStringEmail = {
 
 
 const undefinedPassword = {
-  firstName: 'uche',
-  lastName: 'mark',
+  first_name: 'uche',
+  last_name: 'mark',
   email: 'Ikennauche@yahoo.com',
 };
 
 
 const nonStringPassword = {
-  firstName: 'uche',
-  lastName: 'mark',
+  first_name: 'uche',
+  last_name: 'mark',
   email: 'Ikennauche@yahoo.com',
   address: 'Abuja',
   password: ['23434', '23434'],
 };
 
 const invalidPasswordLength = {
-  firstName: 'uche',
-  lastName: 'mark',
+  first_name: 'uche',
+  last_name: 'mark',
   email: 'Ikennauche@yahoo.com',
   address: 'Abuja',
   password: '2',
