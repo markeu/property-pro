@@ -76,7 +76,13 @@ class UserValidators {
           message: 'email must be a string',
         });
     }
-    // /
+    const checkEmailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!checkEmailRegex.test(email)) {
+      return res.status(400).send({
+        status: 'error',
+        message: 'email address format is invalid',
+      });
+    }
     // Password Validation
     if (!password) {
       return res.status(400)

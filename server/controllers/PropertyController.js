@@ -1,18 +1,26 @@
 import {
   postAd, getAllProperty, getSpecificProperty,
-  changePropStatus, deleteOneProperty,
+  getSpecificPropType, changePropStatus, deleteOneProperty,
 } from '../helpers/propertyHelper';
 import property from '../models/property';
+import { multerUploads, dataUri } from '../config/multerconfig';
+import { uploader } from '../config/cloudinaryConfig'
 
 
 // Post properties.
 class propertyController {
   static createPropAd(req, res) {
-    const newAd = postAd(req.body);
-    return res.status(201).json({
-      status: 'success',
-      data: newAd,
-    });
+    if(req.file) {
+      const file = dataUri(req).content;
+      return uploader.upload(file).then((result) => {
+        const data = {...req.body, image_url: result.url}
+        const newAd = postAd(data);
+        return res.status(201).json({
+          status: 'success',
+          data: newAd,
+        });
+      })
+    }
   }
 
   // Get all properties
@@ -29,16 +37,32 @@ class propertyController {
     }
 
     return res.status(200).send({
-      status: 200,
+      status: 'success',
       message: 'All Property Ads retrieved successfully',
       data: allProperty,
     });
   }
 
+  // Get specific property advert (type: property type)
+  static getSpecificPropType(req, res) {
+    const propType = req.params.propertyType;
+    const property1 = getSpecificPropType(propType);
+    if (!property1.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Property Type does not exist',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      data: property1,
+    });
+  }
 
   // Get specific property ID
   static getSpecificProperty(req, res) {
     const propertyId = parseInt(req.params.propertyId, 10);
+    console.log(propertyId, '===>> id');
     const property2 = getSpecificProperty(propertyId);
     if (!property2.length) {
       return res.status(404).json({
@@ -58,8 +82,8 @@ class propertyController {
 
   static updatePropertyAdStatus(req, res) {
     const { propertyId } = req.params;
-    const { status } = req.body;
-    const property3 = changePropStatus(parseInt(propertyId, 10), status);
+    const { sold } = req.body;
+    const property3 = changePropStatus(parseInt(propertyId, 10), sold);
     return res.status(200).json({
       status: 'success',
       data: property3,
@@ -88,15 +112,15 @@ class propertyController {
   // delete properties
 
   static deleteProperty(req, res) {
-    const { id } = req.params;
-    const property4 = getSpecificProperty(parseInt(id, 10));
+    const { propertyId } = req.params;
+    const property4 = getSpecificProperty(parseInt(propertyId, 10));
     if (!property4.length) {
       return res.status(404).json({
         status: 'error',
-        message: 'Property does not exist',
+        message: 'Property does not exist', 
       });
     }
-    deleteOneProperty(parseInt(id, 10));
+    deleteOneProperty(parseInt(propertyId, 10));
     return res.status(202).json({
       status: 'Success',
       message: 'Property AD deleted successfully',

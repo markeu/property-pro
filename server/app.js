@@ -1,16 +1,35 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { resolve } from  'path';
+import { cloudinaryConfig } from './config/cloudinaryConfig'
 import PropertyRoutes from './routes/properties';
 import userRoutes from './routes/users';
-// import flagRoutes from './routes/flags';
+
+
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('*', cloudinaryConfig);
+app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
 app.use('/api/v1/property', PropertyRoutes);
 app.use('/api/v1/auth', userRoutes);
-// app.use('/api/v1/flag', flagRoutes);
+
+
+
+
+// app.post('/uploadfile', upload.single('imageUrl'), (req, res, next) => {
+//   const file = req.file
+//   if (!file) {
+//     const error = new Error('Please upload a file')
+//     error.httpStatusCode = 400
+//     return next(error)
+//   }
+//     res.send(file)
+  
+// })
 
 app.get('/', (req, res) => {
   res.status(200).send({
@@ -18,7 +37,7 @@ app.get('/', (req, res) => {
   });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 7000;
 app.listen(port, () => {
   console.log(`PropertyPro started on port ${port}`);
 });

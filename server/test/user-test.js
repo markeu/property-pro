@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 
 import {
-  validUser,
   undefinedFirstName,
   nonStringFirstName,
   undefinedLastName,
@@ -16,7 +15,6 @@ import {
   nonStringPassword,
   invalidPasswordLength,
 
-  validSignIn,
   undefinedEmailSignin,
   nonStringEmailSignin,
   undefinedPasswordSignin,
@@ -47,7 +45,7 @@ describe('POST/api/v1/auth', () => {
   // Test for Email
   it('should return 400 status for an undefined email', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(undefinedEmailSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -59,7 +57,7 @@ describe('POST/api/v1/auth', () => {
 
   it('should return 400 status for a non string Email', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(nonStringEmailSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -72,7 +70,7 @@ describe('POST/api/v1/auth', () => {
   // Tests for password
   it('should return 400 status for Undefined Password Signin', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(undefinedPasswordSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -84,7 +82,7 @@ describe('POST/api/v1/auth', () => {
 
   it('should return 400 status for a non string Password', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(nonStringPasswordSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);

@@ -4,15 +4,14 @@ import { getSpecificProperty } from '../helpers/propertyHelper';
 class PropertyValidators {
   static postAdValidator(req, res, next) {
     const {
-      owner, status, price, state, city, address, type, imageUrl,
+      owner, status, price, state, city, address, type, owner_email , owner_phone_number
     } = req.body;
-
-    if (!owner || !status || !price || !state || !city || !address || !type || !imageUrl) {
+    if (!owner || !status || !price || !state || !city || !address || !type || !owner_email || !owner_phone_number  ) {
       return res.status(400).json({
         status: 'error',
         data: {
           message: 'All required fields are expected',
-          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type', 'image_url'],
+          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type'],
         },
       });
     }
@@ -24,8 +23,8 @@ class PropertyValidators {
           message: 'Property owner must be a integer',
         });
     }
-
-    if (typeof price !== Number) {
+    const userPrice = parseFloat(price);
+    if (!Number(userPrice)) {
       return res.status(400)
         .json({
           status: 'error',
