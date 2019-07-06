@@ -13,23 +13,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('*', cloudinaryConfig);
-app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
+// app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
 app.use('/api/v1/property', PropertyRoutes);
 app.use('/api/v1/auth', userRoutes);
-
-
-
-
-// app.post('/uploadfile', upload.single('imageUrl'), (req, res, next) => {
-//   const file = req.file
-//   if (!file) {
-//     const error = new Error('Please upload a file')
-//     error.httpStatusCode = 400
-//     return next(error)
-//   }
-//     res.send(file)
-  
-// })
 
 app.get('/', (req, res) => {
   res.status(200).send({

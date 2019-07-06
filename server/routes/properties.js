@@ -1,10 +1,8 @@
 import express from 'express';
-import { multerUploads, dataUri } from '../config/multerconfig';
-import { uploader, cloudinaryConfig } from '../config/cloudinaryConfig'
+import { multerUploads} from '../config/multerconfig';
 import PropertyController from '../controllers/PropertyController';
 
 import { postAdValidator, updateAdStatusValidator, updateAdDataValidator } from '../middleware/propertyValidation';
-
 
 const router = express.Router();
 

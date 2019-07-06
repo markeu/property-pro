@@ -8,7 +8,7 @@ const validAd = {
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
 
 const undefinedOwner = {
@@ -20,7 +20,7 @@ const undefinedOwner = {
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
   // const emptyOwnerValue = {
   //   id: 1,
@@ -54,7 +54,7 @@ const undefinedCity = {
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
 
 // const emptyCityValue = {
@@ -116,7 +116,7 @@ const undefinedState = {
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
 
 
@@ -129,7 +129,7 @@ const undefinedStatus = {
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
 
 
@@ -142,7 +142,7 @@ const undefinedType = {
   city: 'kano',
   address: '15 Burma road',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_url: 'http://www.image.com',
 };
 
 const undefinedAddress = {
@@ -153,7 +153,7 @@ const undefinedAddress = {
   state: 'kano',
   type: 'flat',
   created_on: Date(),
-  imageUrl: 'http://www.image.com',
+  image_Url: 'http://www.image.com',
 };
 
 const undefinedImageUrl = {
