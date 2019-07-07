@@ -12,8 +12,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('*', cloudinaryConfig);
-// app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
+app.use('*', cloudinaryConfig);                          //Cloudinary API call
 app.use('/api/v1/property', PropertyRoutes);
 app.use('/api/v1/auth', userRoutes);
 

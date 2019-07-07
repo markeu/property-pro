@@ -12,6 +12,7 @@ class propertyController {
   static createPropAd(req, res) {
     if(req.file) {
       const file = dataUri(req).content;
+      console.log('file');
       return uploader.upload(file).then((result) => {
         const data = {...req.body, image_url: result.url}
         const newAd = postAd(data);

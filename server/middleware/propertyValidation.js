@@ -11,7 +11,7 @@ class PropertyValidators {
         status: 'error',
         data: {
           message: 'All required fields are expected',
-          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type'],
+          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type','owner_email', 'owner_phone_number'],
         },
       });
     }

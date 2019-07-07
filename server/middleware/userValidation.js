@@ -130,8 +130,7 @@ class UserValidators {
           error: 'address must be a string',
         });
     }
-
-
+    
     return next();
   }
 
