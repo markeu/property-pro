@@ -1,5 +1,6 @@
 import {
-  postAd, changePropStatus,
+  postAd, getSpecificProperty,
+  changePropStatus, deleteOneProperty,
 } from '../helpers/propertyHelper';
 import property from '../models/property';
 
@@ -13,6 +14,7 @@ class propertyController {
       data: newAd,
     });
   }
+
 
   // Update property status
 
@@ -42,6 +44,25 @@ class propertyController {
       status: 'success',
       message: 'Property details updated successfully',
       data: specificProperty,
+    });
+  }
+
+  // delete properties
+
+  static deleteProperty(req, res) {
+    const { id } = req.params;
+    const property4 = getSpecificProperty(parseInt(id, 10));
+    if (!property4.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Property does not exist',
+      });
+    }
+    deleteOneProperty(parseInt(id, 10));
+    return res.status(202).json({
+      status: 'Success',
+      message: 'Property AD deleted successfully',
+
     });
   }
 }
