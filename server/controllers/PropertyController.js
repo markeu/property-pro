@@ -36,6 +36,24 @@ class propertyController {
   }
 
 
+  // Get specific property ID
+  static getSpecificProperty(req, res) {
+    const propertyId = parseInt(req.params.propertyId, 10);
+    const property2 = getSpecificProperty(propertyId);
+    if (!property2.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Property does not exist',
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Property Ad retrieved successfully',
+      data: property2,
+    });
+  }
+
   // Update property status
 
   static updatePropertyAdStatus(req, res) {
