@@ -17,7 +17,6 @@ class PropertyValidators {
       });
     }
     const userOwner = parseFloat(owner);
-
     if (!Number(userOwner)) {
       return res.status(400)
         .json({
@@ -34,6 +33,39 @@ class PropertyValidators {
         });
     }
 
+    return next();
+  }
+
+
+  static updateAdStatusValidator(req, res, next) {
+    const { propertyId } = req.params;
+    const property = getSpecificProperty(parseInt(propertyId, 10));
+    if (!property.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Property does not exist',
+      });
+    }
+    const statusUpdate = { ...req.body };
+    const expectedPropertyKey = ['status'];
+    const request = Object.keys(statusUpdate);
+    const responseKey = request.filter(key => !expectedPropertyKey.includes(key));
+    if (responseKey.length) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Status only requirred',
+
+      });
+    }
+
+    const { status } = req.body;
+    if (!status) {
+      return res.status(400)
+        .json({
+          status: 'error',
+          message: 'Property status is required',
+        });
+    }
     return next();
   }
 
@@ -73,7 +105,7 @@ class PropertyValidators {
     return next();
   }
 }
-const { postAdValidator, updateAdDataValidator } = PropertyValidators;
+const { postAdValidator, updateAdStatusValidator, updateAdDataValidator } = PropertyValidators;
 
 
-export { postAdValidator, updateAdDataValidator };
+export { postAdValidator, updateAdStatusValidator, updateAdDataValidator };

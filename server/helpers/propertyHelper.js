@@ -26,3 +26,12 @@ export const getSpecificProperty = (id) => {
   const propertyType = property.filter(props => props.id === id);
   return propertyType;
 };
+
+
+export const changePropStatus = (id, status) => {
+  const specificProperty = property.find(props => props.id === id);
+  const updateStatus = { ...specificProperty, status };
+  const propertyIndex = property.indexOf(specificProperty);
+  property.splice(propertyIndex, 1, updateStatus);
+  return updateStatus;
+};

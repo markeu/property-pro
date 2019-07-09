@@ -1,4 +1,6 @@
-import { postAd } from '../helpers/propertyHelper';
+import {
+  postAd, changePropStatus,
+} from '../helpers/propertyHelper';
 import property from '../models/property';
 
 
@@ -9,6 +11,18 @@ class propertyController {
     return res.status(201).json({
       status: 'success',
       data: newAd,
+    });
+  }
+
+  // Update property status
+
+  static updatePropertyAdStatus(req, res) {
+    const { propertyId } = req.params;
+    const { status } = req.body;
+    const property3 = changePropStatus(parseInt(propertyId, 10), status);
+    return res.status(200).json({
+      status: 'success',
+      data: property3,
     });
   }
 
