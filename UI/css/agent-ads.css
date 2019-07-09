@@ -1,0 +1,303 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	margin: 0 !important;
+}
+
+.header-main,
+.footer-main {
+	height: 60px;
+	width: 100%;
+}
+
+.navbar {
+	overflow: hidden;
+	height: 63px;
+	background: #008b8b;
+	width: 100%;
+}
+
+.nav li {
+	float: right;
+}
+
+.nav #logo {
+	float: left;
+	font-size: 1.8em;
+}
+
+.navbar a {
+	float: left;
+	display: block;
+	text-decoration: none;
+	color: #fff;
+	margin-right: 10px;
+	font-size: 90%;
+	padding-right: 0.5em;
+}
+
+.navbar a:hover {
+	background-color: #555;
+	padding: 0.5em;
+}
+
+li {
+	list-style: none;
+	text-transform: capitalize;
+	font-size: 1.5em;
+}
+
+svg {
+	margin: 1.5em;
+}
+
+.side-nav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #555;
+	opacity: 0.9;
+	overflow-x: hidden;
+	padding-top: 60px;
+	transition: 0.5s;
+}
+
+.side-nav a {
+	padding: 10px 10px 10px 30px;
+	text-decoration: none;
+	font-size: 1.5em;
+	color: #ccc;
+	display: block;
+	transition: 0.3s;
+}
+
+.side-nav a:hover {
+	color: #fff;
+	background: rgb(69, 124, 207);
+}
+
+.side-nav .btn-close {
+	position: absolute;
+	top: 0;
+	right: 1.6em;
+	font-size: 2.5em;
+	margin-left: 3em;
+	margin-right: -1em;
+}
+
+#main {
+	transition: margin-left 0.5s;
+	overflow: hidden;
+}
+
+main {
+	flex: 1;
+	width: 100%;
+	position: relative;
+}
+
+main h1 {
+	text-align: center;
+}
+
+.search-button {
+	display: flex;
+	justify-content: center;
+	margin: 0.5em 0;
+}
+
+.search-button input[type="text"] {
+	padding: 1em;
+	margin-right: 0.3em;
+	margin-left: 0;
+}
+
+.search-button button {
+	background: rgb(67, 94, 185);
+	color: #000;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 1.3em
+}
+
+.search-button button:hover {
+	background: #555;
+}
+
+#filterContainer {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.Filter {
+	padding: 0.5em;
+	margin: 0 auto;
+	background: rgb(245, 224, 236);
+	margin-left: 1em;
+	font-size: 1em;
+	align-content: center;
+	margin-top: 0.5em;
+}
+
+option {
+	background: rgb(219, 142, 187)
+}
+
+.menu-container {
+	display: flex;
+	flex-direction: column;
+	margin: 1em;
+}
+
+.menu-items {
+	display: flex;
+	background: rgb(243, 238, 250);
+	justify-content: center;
+	padding: 10px;
+	margin: 5px;
+	margin-top: 2em;
+	margin-bottom: 1.5em;
+}
+
+
+.property-name {
+	flex-wrap: nowrap;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #000;
+	background: #fff;
+	text-transform: capitalize;
+	padding-bottom: 5px;
+	border-radius: 5%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.column img {
+	width: 100%;
+}
+
+.column{
+	background-color: rgb(238, 238, 238);
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.menu-button {
+	width: 100%;
+	text-align: center;
+	display: 100%;
+}
+
+.menu-button .sold{
+color:rgba(248, 151, 151, 0.87);
+}
+/**
+.menu-button {
+	display: 100%;
+	text-align: center;
+}
+**/
+#property-name {
+	padding: 0.5em;
+}
+
+.property-details {
+	flex-wrap: wrap;
+	font-weight: bold;
+	color: #313131;
+	text-transform: capitalize;
+	padding-bottom: 5px;
+	width: 100%;
+	text-align: center;
+}
+
+input[type="number"] {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: flex;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input::-webkit-input-placeholder {
+	color: #c1c1c1;
+	font-size: 1.3em;
+}
+
+.menu-button button {
+	background-color: #008b8b;
+	color: white;
+	width:150px;
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	cursor:pointer;
+	margin-top: 6px;
+	margin-bottom: 4px;
+}
+
+.menu-button button:hover {
+	background: #555;
+}
+
+.footer-main {
+	margin: 0;
+	background: #008b8b;
+	display: flex;
+}
+
+.footer-main p {
+	margin: 0 auto;
+	color: white;
+	padding: 1em;
+	font-size: 1em;
+}
+
+
+@media(max-width: 750px) {
+	.menu {
+		display: none;
+	}
+
+	.navbar #logo {
+		margin: 0 auto;
+	}
+}
+
+@media(min-width: 750px) {
+	/*.open-slide {
+		display: none;
+	}*/
+
+	.menu-items {
+		width: 25%;
+	}
+
+	.menu-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
+	li {
+		list-style: none;
+		text-transform: capitalize;
+		font-size: 1.7em;
+	}
+
+	.menu {
+	
+		margin-left: 0.2em;
+		padding-left: 0.5em;
+		border-radius: 5px;
+		;
+	}
+}

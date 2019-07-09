@@ -7,8 +7,8 @@ import { postAdValidator, updateAdStatusValidator, updateAdDataValidator } from 
 const router = express.Router();
 
 const {
-  createPropAd, updatePropertyAdData, updatePropertyAdStatus,
-  deleteProperty, getAllProperty, getSpecificProperty, getSpecificPropType,
+	createPropAd, updatePropertyAdData, updatePropertyAdStatus,
+	deleteProperty, getAllProperty, getSpecificProperty, getSpecificPropType,
 } = PropertyController;
 
 router.get('/', getAllProperty);
