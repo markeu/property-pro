@@ -9,7 +9,7 @@ const property = [{
   address: '15 Burma road',
   type: 'flat',
   created_on: Date(),
-  image_url: '',
+  image_url: 'image_url',
 },
 {
   id: 2,

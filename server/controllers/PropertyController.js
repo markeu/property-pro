@@ -1,18 +1,27 @@
 import {
   postAd, getAllProperty, getSpecificProperty,
-  changePropStatus, deleteOneProperty,
+  getSpecificPropType, changePropStatus, deleteOneProperty,
 } from '../helpers/propertyHelper';
 import property from '../models/property';
+import { dataUri } from '../config/multerconfig';
+import { uploader } from '../config/cloudinaryConfig'
 
 
 // Post properties.
 class propertyController {
   static createPropAd(req, res) {
-    const newAd = postAd(req.body);
-    return res.status(201).json({
-      status: 'success',
-      data: newAd,
-    });
+    if(req.file) {
+      const file = dataUri(req).content;
+      console.log('file');
+      return uploader.upload(file).then((result) => {
+        const data = {...req.body, image_url: result.url}
+        const newAd = postAd(data);
+        return res.status(201).json({
+          status: 'success',
+          data: newAd,
+        });
+      })
+    }
   }
 
   // Get all properties
@@ -29,27 +38,41 @@ class propertyController {
     }
 
     return res.status(200).send({
-      status: 200,
-      message: 'All Property Ads retrieved successfully',
+      status: 'success',
+      error: 'All Property Ads retrieved successfully',
       data: allProperty,
     });
   }
 
+  // Get specific property advert (type: property type)
+  static getSpecificPropType(req, res) {
+    const propType = req.params.property_type;
+    const property1 = getSpecificPropType(propType);
+    if (!property1.length) {
+      return res.status(404).json({
+        status: 'error',
+        error: 'Property Type does not exist',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      data: property1,
+    });
+  }
 
   // Get specific property ID
   static getSpecificProperty(req, res) {
-    const propertyId = parseInt(req.params.propertyId, 10);
-    const property2 = getSpecificProperty(propertyId);
+    const property_id = parseInt(req.params.property_id, 10);
+    const property2 = getSpecificProperty(property_id);
     if (!property2.length) {
       return res.status(404).json({
         status: 'error',
-        message: 'Property does not exist',
+        error: 'Property does not exist',
       });
     }
 
     return res.status(200).json({
-      status: 200,
-      message: 'Property Ad retrieved successfully',
+      status: 'success',
       data: property2,
     });
   }
@@ -57,9 +80,9 @@ class propertyController {
   // Update property status
 
   static updatePropertyAdStatus(req, res) {
-    const { propertyId } = req.params;
-    const { status } = req.body;
-    const property3 = changePropStatus(parseInt(propertyId, 10), status);
+    const { property_id } = req.params;
+    const { sold } = req.body;
+    const property3 = changePropStatus(parseInt(property_id, 10), sold);
     return res.status(200).json({
       status: 'success',
       data: property3,
@@ -71,8 +94,8 @@ class propertyController {
 
   static updatePropertyAdData(req, res) {
     const newPropUpdate = { ...req.body };
-    const { propertyId } = req.params;
-    const specificProperty = property.find(data => data.id === parseInt(propertyId, 10));
+    const { property_id } = req.params;
+    const specificProperty = property.find(data => data.id === parseInt(property_id, 10));
     const propertyIndex = property.indexOf(specificProperty);
     Object.assign(specificProperty, newPropUpdate);
     property.splice(propertyIndex, 1, specificProperty);
@@ -80,7 +103,6 @@ class propertyController {
 
     return res.status(201).json({
       status: 'success',
-      message: 'Property details updated successfully',
       data: specificProperty,
     });
   }
@@ -88,19 +110,20 @@ class propertyController {
   // delete properties
 
   static deleteProperty(req, res) {
-    const { id } = req.params;
-    const property4 = getSpecificProperty(parseInt(id, 10));
+    const { property_id } = req.params;
+    const property4 = getSpecificProperty(parseInt(property_id, 10));
     if (!property4.length) {
       return res.status(404).json({
         status: 'error',
-        message: 'Property does not exist',
+        error:  'Property does not exist', 
       });
     }
-    deleteOneProperty(parseInt(id, 10));
+    deleteOneProperty(parseInt(property_id, 10));
     return res.status(202).json({
       status: 'Success',
-      message: 'Property AD deleted successfully',
-
+      data: {
+        message: 'Property AD deleted successfully',
+      }
     });
   }
 }

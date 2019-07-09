@@ -4,15 +4,14 @@ import { getSpecificProperty } from '../helpers/propertyHelper';
 class PropertyValidators {
   static postAdValidator(req, res, next) {
     const {
-      owner, status, price, state, city, address, type, imageUrl,
+      owner, status, price, state, city, address, type, owner_email , owner_phone_number
     } = req.body;
-
-    if (!owner || !status || !price || !state || !city || !address || !type || !imageUrl) {
+    if (!owner || !status || !price || !state || !city || !address || !type || !owner_email || !owner_phone_number  ) {
       return res.status(400).json({
         status: 'error',
         data: {
           message: 'All required fields are expected',
-          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type', 'image_url'],
+          requiredFields: ['owner', 'status', 'price', 'state', 'city', 'address', 'type','owner_email', 'owner_phone_number'],
         },
       });
     }
@@ -21,15 +20,15 @@ class PropertyValidators {
       return res.status(400)
         .json({
           status: 'error',
-          message: 'Property owner must be a integer',
+          error:  'Property owner must be a integer',
         });
     }
-
-    if (typeof price !== Number) {
+    const userPrice = parseFloat(price);
+    if (!Number(userPrice)) {
       return res.status(400)
         .json({
           status: 'error',
-          message: 'Property price is required to be an integer',
+          error:  'Property price is required to be an integer',
         });
     }
 
@@ -38,12 +37,12 @@ class PropertyValidators {
 
 
   static updateAdStatusValidator(req, res, next) {
-    const { propertyId } = req.params;
-    const property = getSpecificProperty(parseInt(propertyId, 10));
+    const { property_id } = req.params;
+    const property = getSpecificProperty(parseInt(property_id, 10));
     if (!property.length) {
       return res.status(404).json({
         status: 'error',
-        message: 'Property does not exist',
+        error:  'Property does not exist',
       });
     }
     const statusUpdate = { ...req.body };
@@ -53,7 +52,7 @@ class PropertyValidators {
     if (responseKey.length) {
       return res.status(400).json({
         status: 'error',
-        message: 'Status only requirred',
+        error:  'Status only requirred',
 
       });
     }
@@ -63,7 +62,7 @@ class PropertyValidators {
       return res.status(400)
         .json({
           status: 'error',
-          message: 'Property status is required',
+          error:  'Property status is required',
         });
     }
     return next();
@@ -71,12 +70,12 @@ class PropertyValidators {
 
 
   static updateAdDataValidator(req, res, next) {
-    const { propertyId } = req.params;
-    const property = getSpecificProperty(parseInt(propertyId, 10));
+    const { property_id } = req.params;
+    const property = getSpecificProperty(parseInt(property_id, 10));
     if (!property.length) {
       return res.status(404).json({
         status: 'error',
-        message: 'Property does not exist',
+        error:  'Property does not exist',
       });
     }
 
@@ -96,7 +95,7 @@ class PropertyValidators {
     if (responseKeys.length) {
       return res.status(400).json({
         status: 'error',
-        message: 'Input the expected Property key(s)',
+        error:  'Input the expected Property key(s)',
 
       });
     }

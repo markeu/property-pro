@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 
 import {
-  validUser,
   undefinedFirstName,
   nonStringFirstName,
   undefinedLastName,
@@ -16,7 +15,6 @@ import {
   nonStringPassword,
   invalidPasswordLength,
 
-  validSignIn,
   undefinedEmailSignin,
   nonStringEmailSignin,
   undefinedPasswordSignin,
@@ -47,11 +45,11 @@ describe('POST/api/v1/auth', () => {
   // Test for Email
   it('should return 400 status for an undefined email', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(undefinedEmailSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
-        expect(res.body.message).to.equal('your email is required');
+        expect(res.body.error).to.equal('your email is required');
         done();
       });
   });
@@ -59,11 +57,11 @@ describe('POST/api/v1/auth', () => {
 
   it('should return 400 status for a non string Email', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(nonStringEmailSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
-        expect(res.body.message).to.equal('email must be a string');
+        expect(res.body.error).to.equal('email must be a string');
         done();
       });
   });
@@ -72,23 +70,23 @@ describe('POST/api/v1/auth', () => {
   // Tests for password
   it('should return 400 status for Undefined Password Signin', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(undefinedPasswordSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
         res.body.should.be.a('object');
-        expect(res.body.message).to.equal('your password is required');
+        expect(res.body.error).to.equal('your password is required');
         done();
       });
   });
 
   it('should return 400 status for a non string Password', (done) => {
     chai.request(app)
-      .post('/api/v1/auth')
+      .post('/api/v1/auth/signin')
       .send(nonStringPasswordSignin)
       .end((err, res) => {
         expect(res).to.have.status(400);
-        expect(res.body.message).to.equal('password must be a string');
+        expect(res.body.error).to.equal('password must be a string');
         done();
       });
   });
@@ -104,7 +102,7 @@ describe('POST/api/v1/auth/signup', () => {
       .send(undefinedFirstName)
       .end((err, res) => {
         expect(res).to.have.status(400);
-        expect(res.body.message).to.equal('First name is required');
+        expect(res.body.error).to.equal('First name is required');
         done();
       });
   });
@@ -116,7 +114,7 @@ it('should return 400 status for a non string First Name', (done) => {
     .send(nonStringFirstName)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('First name must be a string');
+      expect(res.body.error).to.equal('First name must be a string');
       done();
     });
 });
@@ -128,7 +126,7 @@ it('should return 400 status for an undefined first name', (done) => {
     .send(undefinedLastName)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('Last name is required');
+      expect(res.body.error).to.equal('Last name is required');
       done();
     });
 });
@@ -139,7 +137,7 @@ it('should return 400 status for a non string Last Name', (done) => {
     .send(nonStringLastName)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('Last name must be a string');
+      expect(res.body.error).to.equal('Last name must be a string');
       done();
     });
 });
@@ -149,7 +147,7 @@ it('should return 400 status for a last name char below 2 and above 25', (done) 
     .send(invalidLastNameLength)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('Last name must be an alphabet with length 2 to 25');
+      expect(res.body.error).to.equal('Last name must be an alphabet with length 2 to 25');
       done();
     });
 });
@@ -161,7 +159,7 @@ it('should return 400 status for an undefined first name', (done) => {
     .send(undefinedEmail)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('your email is required');
+      expect(res.body.error).to.equal('your email is required');
       done();
     });
 });
@@ -171,7 +169,7 @@ it('should return 400 status for a non string email', (done) => {
     .send(nonStringEmail)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('email must be a string');
+      expect(res.body.error).to.equal('email must be a string');
       done();
     });
 });
@@ -183,7 +181,7 @@ it('should return 400 status for an undefined password', (done) => {
     .send(undefinedPassword)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('your password is required');
+      expect(res.body.error).to.equal('your password is required');
       done();
     });
 });
@@ -194,7 +192,7 @@ it('should return 400 status for a non string password', (done) => {
     .send(nonStringPassword)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('password must be a string');
+      expect(res.body.error).to.equal('password must be a string');
       done();
     });
 });
@@ -204,7 +202,7 @@ it('should return 400 status for password char below 2 and above 25', (done) => 
     .send(invalidPasswordLength)
     .end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.message).to.equal('password should be 5 to 30 characters long');
+      expect(res.body.error).to.equal('password should be 5 to 30 characters long');
       done();
     });
 });

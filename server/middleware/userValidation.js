@@ -1,56 +1,56 @@
 class UserValidators {
   static signupValidator(req, res, next) {
     const {
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       email,
       address,
       password,
     } = req.body;
 
     // First name validation
-    if (firstName === undefined) {
+    if (first_name === undefined) {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'First name is required',
+          error: 'First name is required',
         });
     }
 
-    if (typeof firstName !== 'string') {
+    if (typeof first_name !== 'string') {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'First name must be a string',
+          error: 'First name must be a string',
         });
     }
-    if (!/^([A-Za-z]){2,25}$/.test(firstName)) {
+    if (!/^([A-Za-z]){2,25}$/.test(first_name)) {
       return res.status(400).json({
         status: 'error',
-        message: 'First name must be an alphabet with length 2 to 25',
+        error:'First name must be an alphabet with length 2 to 25',
       });
     }
 
     // Last name validation
-    if (lastName === undefined) {
+    if (last_name === undefined) {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'Last name is required',
+          error: 'Last name is required',
         });
     }
 
-    if (typeof lastName !== 'string') {
+    if (typeof last_name !== 'string') {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'Last name must be a string',
+          error: 'Last name must be a string',
         });
     }
-    if (!/^([A-Za-z-]){2,25}$/.test(lastName)) {
+    if (!/^([A-Za-z-]){2,25}$/.test(last_name)) {
       return res.status(400).json({
         status: 'error',
-        message: 'Last name must be an alphabet with length 2 to 25',
+        error: 'Last name must be an alphabet with length 2 to 25',
       });
     }
 
@@ -59,30 +59,36 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'your email is required',
+          error: 'your email is required',
         });
     }
     if (email.includes(' ')) {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'email cannot include space.',
+          error: 'email cannot include space.',
         });
     }
     if (typeof email !== 'string') {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'email must be a string',
+          error:'email must be a string',
         });
     }
-    // /
+    const checkEmailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!checkEmailRegex.test(email)) {
+      return res.status(400).send({
+        status: 'error',
+        error:'email address format is invalid',
+      });
+    }
     // Password Validation
     if (!password) {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'your password is required',
+          error: 'your password is required',
         });
     }
 
@@ -90,7 +96,7 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'password must be a string',
+          error: 'password must be a string',
         });
     }
 
@@ -98,13 +104,13 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'password cannot contain spaces',
+          error: 'password cannot contain spaces',
         });
     }
     if (password.length < 5 || password.length > 30) {
       return res.status(400).send({
         status: 'error',
-        message: 'password should be 5 to 30 characters long',
+        error: 'password should be 5 to 30 characters long',
       });
     }
 
@@ -113,7 +119,7 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'your address is required',
+          error: 'your address is required',
         });
     }
 
@@ -121,11 +127,10 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'address must be a string',
+          error: 'address must be a string',
         });
     }
-
-
+    
     return next();
   }
 
@@ -140,7 +145,7 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'your email is required',
+          error:'your email is required',
         });
     }
 
@@ -148,28 +153,28 @@ class UserValidators {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'email must be a string',
+          error: 'email must be a string',
         });
     }
     const checkEmailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!checkEmailRegex.test(email)) {
       return res.status(400).send({
         status: 'error',
-        message: 'email address format is invalid',
+        error: 'email address format is invalid',
       });
     }
     if (!password) {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'your password is required',
+          error: 'your password is required',
         });
     }
     if (typeof password !== 'string') {
       return res.status(400)
         .send({
           status: 'error',
-          message: 'password must be a string',
+          error: 'password must be a string',
         });
     }
 
