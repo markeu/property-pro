@@ -128,7 +128,54 @@ class UserValidators {
 
     return next();
   }
-}
-const { signupValidator } = UserValidators;
 
-export { signupValidator };
+
+  static signinValidator(req, res, next) {
+    const {
+      email,
+      password,
+    } = req.body;
+
+    if (!email) {
+      return res.status(400)
+        .send({
+          status: 'error',
+          message: 'your email is required',
+        });
+    }
+
+    if (typeof email !== 'string') {
+      return res.status(400)
+        .send({
+          status: 'error',
+          message: 'email must be a string',
+        });
+    }
+    const checkEmailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!checkEmailRegex.test(email)) {
+      return res.status(400).send({
+        status: 'error',
+        message: 'email address format is invalid',
+      });
+    }
+    if (!password) {
+      return res.status(400)
+        .send({
+          status: 'error',
+          message: 'your password is required',
+        });
+    }
+    if (typeof password !== 'string') {
+      return res.status(400)
+        .send({
+          status: 'error',
+          message: 'password must be a string',
+        });
+    }
+
+    return next();
+  }
+}
+const { signupValidator, signinValidator } = UserValidators;
+
+export { signupValidator, signinValidator };
