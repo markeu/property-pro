@@ -1,4 +1,5 @@
 
+import { getSpecificProperty } from '../helpers/propertyHelper';
 
 class PropertyValidators {
   static postAdValidator(req, res, next) {
@@ -16,6 +17,7 @@ class PropertyValidators {
       });
     }
     const userOwner = parseFloat(owner);
+
     if (!Number(userOwner)) {
       return res.status(400)
         .json({
@@ -34,8 +36,44 @@ class PropertyValidators {
 
     return next();
   }
+
+
+  static updateAdDataValidator(req, res, next) {
+    const { propertyId } = req.params;
+    const property = getSpecificProperty(parseInt(propertyId, 10));
+    if (!property.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Property does not exist',
+      });
+    }
+
+    const newPropUpdate = { ...req.body };
+    const expectedPropertyKeys = [
+      'owner',
+      'status',
+      'price',
+      'state',
+      'city',
+      'address',
+      'type',
+      'created_on',
+    ];
+    const request = Object.keys(newPropUpdate);
+    const responseKeys = request.filter(keys => !expectedPropertyKeys.includes(keys));
+    if (responseKeys.length) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Input the expected Property key(s)',
+
+      });
+    }
+
+
+    return next();
+  }
 }
-const { postAdValidator } = PropertyValidators;
+const { postAdValidator, updateAdDataValidator } = PropertyValidators;
 
 
-export { postAdValidator };
+export { postAdValidator, updateAdDataValidator };
