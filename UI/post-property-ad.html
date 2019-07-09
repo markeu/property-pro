@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/post-property-advert.css">
+	<link href="https://fonts.googleapis.com/css" rel="stylesheet">
+	<title>PropertyPro | agent</title>
+	<link rel="icon" href="images/image.png">
+</head>
+
+<body>
+	<header class="header-main">
+		<nav class="navbar">
+			<span class="open-slide">
+				<a href="#" onclick="openSlideMenu()">
+					<svg width="30" height="30">
+						<path d="M0,5 30,5" stroke="#fff" stroke-width="5" />
+						<path d="M0,14 30,14" stroke="#fff" stroke-width="5" />
+						<path d="M0, 23 30,23" stroke="#fff" stroke-width="5" />
+					</svg>
+				</a>
+			</span>
+			<ul class="nav">
+				<li id="logo"><a href="index.html">PropertyPro-Lite</a></li>
+				<li class='menu'><a href="index.html">Signout</a></li>
+				<li class='menu'><a href="post-property-ad.html">Post Ad</a></li>
+			</ul>
+		</nav>
+
+		<div id="side-menu" class="side-nav">
+			<a href="#" class="btn-close" onclick="closeSlideMenu()">&times;</a>
+			<a href="post-property-ad.html">Post Ad</a>
+			<a href="view-all-property.html">View all properties</a>
+			<a href="index.html">Signout</a>
+		</div>
+	</header>
+	<main id="main">
+		<h1 id='create-ad'> Post a Property for Rent or Sale</h1>
+		<div class="propertyad-container">
+		
+			<form action="">
+
+				<label for="name">Name of Property</label>
+				<input type="text" name="propertyname" placeholder="Enter property name" required>
+
+				<label for="state">State</label>
+				<input type="text" id="state" placeholder="" required>
+				<label for="name">Property Type</label>
+				<select name="property type">
+					<option value="1 bedroom">One Bedroom</option>
+					<option value="2 bedroom">2 Bedroom flat</option>
+					<option value="2 bedroom">3 Bedroom flat</option>
+					<option value="2 bedroom">4 Bedroom flat</option>
+					<option value="bungalow">Bungalow</option>
+					<option value="duplex">Duplex</option>
+				</select>
+				<label for="model">City</label>
+				<input type="text" placeholder="Enter city location" required>
+					<label for="model">Address</label>
+					<input type="text" placeholder="Enter address location" required>
+				<label for="price">Price in Naira</label>
+				<input type="number" id="price" placeholder="Enter price" required>
+				<label for="model">Upload Picture of Property</label>
+				<input type="file" name="pic" accept="image/*">
+				<div class="form-button"><button>Post Ad</button></div>
+			</form>
+		</div>
+	</main>
+
+	<footer class="footer-main">
+		<p> &copy; 2019 AutoMart designed by Chiamaka</p>
+	</footer>
+	<script src="js/script.js"></script>
+</body>
+
+</html>
