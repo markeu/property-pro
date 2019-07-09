@@ -1,5 +1,5 @@
 import {
-  postAd, getSpecificProperty,
+  postAd, getAllProperty, getSpecificProperty,
   changePropStatus, deleteOneProperty,
 } from '../helpers/propertyHelper';
 import property from '../models/property';
@@ -12,6 +12,26 @@ class propertyController {
     return res.status(201).json({
       status: 'success',
       data: newAd,
+    });
+  }
+
+  // Get all properties
+  static getAllProperty(req, res) {
+    const allProperty = getAllProperty();
+
+    if (allProperty.length === 0) return res.status(404).send('There are no properties');
+
+    if (!allProperty) {
+      return res.status(404).send({
+        status: 'error',
+        error: 'There are no properties in this database',
+      });
+    }
+
+    return res.status(200).send({
+      status: 200,
+      message: 'All Property Ads retrieved successfully',
+      data: allProperty,
     });
   }
 
