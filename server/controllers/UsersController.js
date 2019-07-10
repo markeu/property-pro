@@ -1,6 +1,6 @@
 import { signUp, getSpecificUser } from '../helpers/userHelper';
 
-import Helper from '../middleware/helper';
+import encrypt from '../middleware/encrypt';
 
 
 class userController {
@@ -15,7 +15,7 @@ class userController {
 			});
 		}
 
-		const hashedPassword = Helper.hashPassword(req.body.password);
+		const hashedPassword = encrypt.hashPassword(req.body.password);
 		req.body.password = hashedPassword;
 		const details = signUp(req.body);
 
@@ -36,7 +36,7 @@ class userController {
 				error: 'Email not registered',
 			});
 		}
-		const authenticatedUser = Helper.comparePassword(req.body.password, existingUser.password);
+		const authenticatedUser = encrypt.comparePassword(req.body.password, existingUser.password);
 
 
 		if (!authenticatedUser) {
@@ -51,7 +51,7 @@ class userController {
 			password: req.body.password,
 		};
 
-		Helper.generateToken(existingUserDetails);
+		encrypt.generateToken(existingUserDetails);
 
 		return res.status(200).json({
 			status: 'success',
