@@ -6,7 +6,7 @@
   "scripts": {
     "test": "nyc mocha --require @babel/register test --exit",
     "start": "nodemon --exec babel-node app.js",
-    "create-table": " babel-node server/db/db.js tableBuild",
+    "create-table": " babel-node db/db.js tableBuild",
     "build": "babel ./ -d ../build",
     "pretest": "eslint --ignore-path .eslintignore .",
     "start-dev": "nodemon --exec babel-node app.js",
