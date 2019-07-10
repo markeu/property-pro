@@ -6,8 +6,9 @@
   "scripts": {
     "test": "nyc mocha --require @babel/register test --exit",
     "start": "nodemon --exec babel-node app.js",
-    "build": "babel server -d build",
-    "start-dev": "nodemon --exec babel-node server/app",
+    "build": "babel ./ -d ../build",
+    "pretest": "eslint --ignore-path .eslintignore .",
+    "start-dev": "nodemon --exec babel-node app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Uche Mark",

@@ -189,18 +189,12 @@ option {
 .menu-button {
 	width: 100%;
 	text-align: center;
-	display: 100%;
 }
 
-.menu-button .sold{
-color:rgba(248, 151, 151, 0.87);
-}
-/**
 .menu-button {
 	display: 100%;
 	text-align: center;
 }
-**/
 #property-name {
 	padding: 0.5em;
 }
