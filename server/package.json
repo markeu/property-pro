@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nyc mocha --require @babel/register test --exit",
     "start": "nodemon --exec babel-node app.js",
+    "create-table": " babel-node server/db/db.js tableBuild",
     "build": "babel ./ -d ../build",
     "pretest": "eslint --ignore-path .eslintignore .",
     "start-dev": "nodemon --exec babel-node app.js",
@@ -22,7 +23,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^7.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
