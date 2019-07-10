@@ -31,4 +31,3 @@ export default {
 	},
 };
 
-"create-table": " babel-node server/db/db.js tableBuild"

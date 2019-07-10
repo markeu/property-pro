@@ -5,10 +5,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-	username: 'postgres',
-	host: 'local host',
-	database: 'postgres',
-	password: 12345,
+	user: 'uche',
+	host: 'localhost',
+	database: 'property_pro',
+	password: '',
 	port: 5432,
 });
 
@@ -16,14 +16,14 @@ pool.on('connect', () => {
 	console.log('connected to database');
 });
 
-const tableBuild = () => {
+const tablesQuerry = () => {
 	const queryTask = `
     DROP TABLE IF EXISTS users CASCADE;
     DROP TABLE IF EXISTS property CASCADE;
     DROP TABLE IF EXISTS flag CASCADE;
     
     CREATE TABLE users(
-            "id" BIGSERIAL PRIMARYKEY,
+            "id" BIGSERIAL PRIMARY KEY,
             "email" VARCHAR UNIQUE NOT NULL,
             "first_name" VARCHAR NOT NULL,
             "last_name" VARCHAR NOT NULL,
@@ -65,4 +65,4 @@ const tableBuild = () => {
 		});
 };
 
-export default tableBuild();
+export default tablesQuerry();
