@@ -1,4 +1,5 @@
 import express from 'express';
+import jsend from 'jsend';
 import bodyParser from 'body-parser';
 import { cloudinaryConfig } from './config/cloudinaryConfig';
 import PropertyRoutes from './routes/properties';
@@ -11,6 +12,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(jsend.middleware);
 app.use('*', cloudinaryConfig);                          //Cloudinary API call
 app.use('/api/v1/property', PropertyRoutes);
 app.use('/api/v1/auth', userRoutes);
