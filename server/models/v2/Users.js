@@ -41,14 +41,7 @@ static async createUser(user) {
    * @param {object} userId
    * @returns {object} User Profile data
    * @memberof Users
-   */ /**
-   *
-   * User model to create user profile
-   * @static
-   * @param {object} userId
-   * @returns {object} User Profile data
-   * @memberof Users
-   */
+   */ 
   static async createProfile(userId) {
       const data = await pool.query(
           `INSERT INTO users_profile(
@@ -67,7 +60,7 @@ static async createUser(user) {
    *
    * @static
    * @param {string} userData
-   * @returns {object} User data according to supplied credential
+   * @returns {object} User data according to supplied email
    * @memberof Users
    */
   static async findUserInput(userData) {

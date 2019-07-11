@@ -1,6 +1,6 @@
 import express from 'express';
 import { multerUploads} from '../config/multerconfig';
-import PropertyController from '../controllers/PropertyController';
+import PropertyController from '../controllers/v1/PropertyController';
 
 import { postAdValidator, updateAdStatusValidator, updateAdDataValidator } from '../middleware/propertyValidation';
 

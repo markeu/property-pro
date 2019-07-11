@@ -1,4 +1,4 @@
-import users from '../models/v1 models/user';
+import users from '../models/v1/user';
 import encrypt from '../middleware/encrypt';
 
 

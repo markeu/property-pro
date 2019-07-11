@@ -1,6 +1,6 @@
-import { signUp, getSpecificUser } from '../helpers/userHelper';
+import { signUp, getSpecificUser } from '../../helpers/userHelper';
 
-import encrypt from '../middleware/encrypt';
+import encrypt from '../../middleware/encrypt';
 
 
 class userController {

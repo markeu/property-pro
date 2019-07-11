@@ -1,4 +1,4 @@
-import property from '../models/v1 models/property';
+import property from '../models/v1/property';
 
 
 export const postAd = (data) => {

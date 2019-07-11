@@ -1,10 +1,10 @@
 import {
   postAd, getAllProperty, getSpecificProperty,
   getSpecificPropType, changePropStatus, deleteOneProperty,
-} from '../helpers/propertyHelper';
-import property from '../models/v1 models/property';
-import { dataUri } from '../config/multerconfig';
-import { uploader } from '../config/cloudinaryConfig'
+} from '../../helpers/propertyHelper';
+import property from '../../models/v1/property';
+import { dataUri } from '../../config/multerconfig';
+import { uploader } from '../../config/cloudinaryConfig'
 
 
 // Post properties.
