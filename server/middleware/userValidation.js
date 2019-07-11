@@ -9,7 +9,7 @@ class UserValidators {
 		} = req.body;
 
 		// First name validation
-		if (first_name === undefined) {
+		if (first_name == undefined) {
 			return res.status(400)
 				.send({
 					status: 'error',

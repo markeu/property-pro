@@ -1,11 +1,13 @@
 import users from '../models/user';
+import encrypt from '../middleware/encrypt';
+
 
 
 export const signUp = (data) => {
-	const generateToken = Math.floor(Math.random() * 90000) + 10000;
+	const token = encrypt.generateToken({ id: users.length + 1, email: data.email });
 	const newUser = {
 		id: users.length + 1,
-		token: generateToken,
+		token: token,
 		email: data.email,
 		first_name: data.first_name,
 		last_name: data.last_name,
@@ -14,6 +16,7 @@ export const signUp = (data) => {
 		is_admin: false,
 	};
 	users.push(newUser);
+	
 	return newUser;
 };
 

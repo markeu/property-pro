@@ -8,14 +8,13 @@
     "start": "nodemon --exec babel-node app.js",
     "create-table": " babel-node db/db.js tableBuild",
     "build": "babel ./ -d ../build",
-    "pretest": "eslint --ignore-path .eslintignore .",
     "start-dev": "nodemon --exec babel-node app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Uche Mark",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.14.0",
     "datauri": "^2.0.0",

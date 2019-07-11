@@ -45,7 +45,7 @@ export default class encrypt {
    * @memberof encrypt
    */
 	static generateToken(user) {
-		const payload = { id: user.id, email: user.email, role: user.role };
+		const payload = { id: user.id, email: user.email };
 		const token = jwt.sign(payload, process.env.JWT_SECRET, {
 			expiresIn: '24h'
 		});
