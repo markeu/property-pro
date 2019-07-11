@@ -2,7 +2,7 @@ import {
   postAd, getAllProperty, getSpecificProperty,
   getSpecificPropType, changePropStatus, deleteOneProperty,
 } from '../helpers/propertyHelper';
-import property from '../models/property';
+import property from '../models/v1 models/property';
 import { dataUri } from '../config/multerconfig';
 import { uploader } from '../config/cloudinaryConfig'
 
