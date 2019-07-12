@@ -13,7 +13,7 @@ export default class ResponseSpec {
      */
 	static badPostRequest(res, status, errorData) {
 		return res.status(status).json({
-			status: 'fail',
+			status: 'error',
 			data: errorData
 		});
 	}
@@ -28,7 +28,7 @@ export default class ResponseSpec {
      */
 	static badGetRequest(res, status, message) {
 		return res.status(status).json({
-			status: 'fail',
+			status: 'error',
 			data: message
 		});
 	}

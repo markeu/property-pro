@@ -70,6 +70,25 @@ export default class UsersController {
    * @returns {object} Object containing token to the user
    * @memberof UsersController
    */
-  
+    static async login(req, res, next) {
+      try {
+        const data = req.body;
+        const query = 'SELECT * FROM users WHERE email = $1';
+        const { rows } = await pool.query(query, [req.body.email]);
+            if (!rows[0]) {
+              return badPostRequest(res, 404, { message: 'Invalid Login Details' });
+            }
+        const passwordValid = await decryptPassword(data.password, rows[0].password);
+            if (!passwordValid) {
+              return badPostRequest(res, 401, { message: 'Invalid Login Details' });
+            }
+        const userData = data;
+        delete userData.password;
+        const token = await generateToken(userData);
+        return successfulRequest(res, 200, { id: data.id, token });
+      } catch (err) {
+        return next(err);
+      }
+    }
   } 
 

@@ -6,10 +6,10 @@ import validator from '../middleware/validation';
 
 const router = express.Router();
 
-const { signUp } = UsersController;
+const { signUp, login } = UsersController;
 
 router.post('/signup', validator.auth, signUp);
-// router.post('/signin', signinValidator, loginUser);
+router.post('/signin', validator.auth, login);
 
 
 export default router;

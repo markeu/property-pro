@@ -7,14 +7,13 @@ export default {
 	auth: (req, res, next) => {
 		const errors = [];
 		const {
-			first_name, last_name, email, password, address, phone_number
+			first_name, last_name, email, password, address
 		} = req.body;
 
 		if (req.path.includes('signup')) {
 			errors.push(...checkForEmptyFields('first_name', first_name));
 			errors.push(...checkForEmptyFields('last_name', last_name));
 			errors.push(...checkForEmptyFields('address', address));
-			errors.push(...checkForEmptyFields('phone_number', phone_number));
 		}
 		errors.push(...checkPatternedFields('email', email, emailRegex));
 		errors.push(...checkPatternedFields('password', password, passwordRegex));
