@@ -3,7 +3,7 @@ import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig'
 
-const { create } = PropertyModel;
+const { create, selectOneProperty } = PropertyModel;
 const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
 /**
  *
@@ -50,4 +50,30 @@ export default class PropertyController{
     return next(err);
         }
       }
+
+  /**
+   * @description View one property advert with details
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {object} propertyDetails
+   * @memberof PropertyController
+   */
+  static async getSpecificProperty(req, res, next) {
+    try {
+      const { id } = req.params;
+      const propertyDetails = await selectOneProperty(parseInt(id, 10));
+      if (propertyDetails) {
+        delete propertyDetails.uploadedBy;
+        return successfulRequest(res, 200, propertyDetails);
+      }
+      return badGetRequest(res, 404, { propertyId: 'Property advert not found' });
+    } catch (err) {
+      return next(err);
     }
+  }
+
+
+ }

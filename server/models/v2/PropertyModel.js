@@ -36,4 +36,37 @@ export default class Properties {
       );
       return rows[0];
     }
+    
+  /**
+   * @static
+   * @description Method to select one specific property advert
+   * @param {number} id Id of the property to be returned
+   * @returns {object} Single property advert details
+   * @memberof Properties
+   */
+  static async selectOneProperty(id) {
+    const data = await pool.query(
+      `SELECT * FROM property WHERE id = ${id},
+      ON property."uploadedBy" = users.id`,
+    );
+    (data.rows[0]);
+    return data.rows[0];
+  }
+  /**
+   * @static
+   * @description Method to select all properties with details
+   * @param {number} id Id of the prope to be returned
+   * @returns {array} All properties in the DB
+   * @memberof Properties
+   */
+  static async getAllProperty() {
+    const data = await pool.query(
+      `SELECT * FROM property',
+      ON property."uploadedBy" = users.id`
+    );
+    return data.rows;
+  }
+
 }
+
+
