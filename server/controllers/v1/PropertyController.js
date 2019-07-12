@@ -15,6 +15,7 @@ class propertyController {
       console.log('file');
       return uploader.upload(file).then((result) => {
         const data = {...req.body, image_url: result.url}
+        
         const newAd = postAd(data);
         return res.status(201).json({
           status: 'success',

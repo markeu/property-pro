@@ -51,6 +51,7 @@ const tablesQuerry = `
              reason VARCHAR NOT NULL,
              description VARCHAR NOT NULL
     );
+    ALTER TABLE "property" ADD FOREIGN KEY ("owner") REFERENCES "users" ("id");
 `;
 
 
