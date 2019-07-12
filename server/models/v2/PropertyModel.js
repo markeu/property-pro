@@ -46,8 +46,7 @@ export default class Properties {
    */
   static async selectOneProperty(id) {
     const data = await pool.query(
-      `SELECT * FROM property WHERE id = ${id},
-      ON property."uploadedBy" = users.id`,
+      `SELECT * FROM property WHERE id = ${id}`
     );
     (data.rows[0]);
     return data.rows[0];
@@ -55,18 +54,28 @@ export default class Properties {
   /**
    * @static
    * @description Method to select all properties with details
-   * @param {number} id Id of the prope to be returned
+   * @param {number} id Id of the property to be returned
    * @returns {array} All properties in the DB
    * @memberof Properties
    */
-  static async getAllProperty() {
+  static async getPropQuery() {
     const data = await pool.query(
-      `SELECT * FROM property',
-      ON property."uploadedBy" = users.id`
+      `SELECT * FROM property`
+    );
+    return data.rows;
+  }
+    /**
+   * @static
+   * @description Method to select all properties with same property type
+   * @param {number} id Id of the property to be returned
+   * @returns {array} All same properties type in the DB
+   * @memberof Properties
+   */
+  static async getPropTypeQuery(type) {
+    const data = await pool.query(
+      `SELECT * FROM property WHERE type = ${type}`
     );
     return data.rows;
   }
 
 }
-
-

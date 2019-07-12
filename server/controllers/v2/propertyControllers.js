@@ -3,7 +3,7 @@ import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig'
 
-const { create, selectOneProperty } = PropertyModel;
+const { create, selectOneProperty, getPropQuery, getPropTypeQuery } = PropertyModel;
 const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
 /**
  *
@@ -52,7 +52,7 @@ export default class PropertyController{
       }
 
   /**
-   * @description View one property advert with details
+   * @description Get specific property advert with id details
    *
    * @static
    * @param {object} req
@@ -69,11 +69,60 @@ export default class PropertyController{
         delete propertyDetails.uploadedBy;
         return successfulRequest(res, 200, propertyDetails);
       }
-      return badGetRequest(res, 404, { propertyId: 'Property advert not found' });
+        return badGetRequest(res, 404, { message: 'Property advert not found' });
+    }catch (err) {
+    return next(err);
+    }
+  }
+/**
+   * @description Get all properties
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {object} propertiesDetails
+   * @memberof PropertyController
+   */
+  static async getAllProperty(req, res, next) {
+    try {
+      const allProperty = await getPropQuery();
+      if (allProperty.length > 0) {
+        const propertyDetails = allProperty.map((property) => {
+            delete propertyDetails.uploadedBy;
+          return property;
+        });
+        return successfulRequest(res, 200, propertyDetails);
+      }
+      return badGetRequest(res, 404, {
+        message: 'There are no properties in this database'
+      });
     } catch (err) {
       return next(err);
     }
   }
-
+  /**
+   * @description Get specific property advert (type: property type)
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {object} propertiesDetails
+   * @memberof PropertyController
+   */
+  static async getSpecificPropType(req, res, next) {
+    try {
+      const { type } = req.params;
+      const propertyDetails = await getPropTypeQuery(type);
+      if (propertyDetails) {
+        delete propertyDetails.uploadedBy;
+        return successfulRequest(res, 200, propertyDetails);
+      }
+        return badGetRequest(res, 404, { message: 'Property Type not found' });
+    }catch (err) {
+    return next(err);
+    }
+  }
 
  }

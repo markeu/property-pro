@@ -1,6 +1,6 @@
 import express from 'express';
 import { multerUploads} from '../config/multerconfig';
-import PropertyController from '../controllers/v1/PropertyController';
+import PropertyController from '../controllers/v2/propertyControllers';
 
 import { postAdValidator, updateAdStatusValidator, updateAdDataValidator } from '../middleware/propertyValidation';
 
@@ -14,10 +14,10 @@ const {
 router.get('/', getAllProperty);
 router.get('/:property_type/type', getSpecificPropType);
 router.get('/:property_id', getSpecificProperty);
-router.post('/', multerUploads,  postAdValidator, createPropAd);
-router.patch('/:property_id', updateAdDataValidator, updatePropertyAdData);
-router.patch('/:property_id/sold', updateAdStatusValidator, updatePropertyAdStatus);
-router.delete('/:property_id', deleteProperty);
+// router.post('/', multerUploads,  postAdValidator, createPropAd);
+// router.patch('/:property_id', updateAdDataValidator, updatePropertyAdData);
+// router.patch('/:property_id/sold', updateAdStatusValidator, updatePropertyAdStatus);
+// router.delete('/:property_id', deleteProperty);
 
 
  
