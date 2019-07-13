@@ -7,14 +7,15 @@ import { postAdValidator, updateAdStatusValidator, updateAdDataValidator } from 
 const router = express.Router();
 
 const {
-	createPropAd, updatePropertyAdData, updatePropertyAdStatus,
+	createPropertyAd, updatePropertyAdData, updatePropertyAdStatus,
 	deleteProperty, getAllProperty, getSpecificProperty, getSpecificPropType,
 } = PropertyController;
 
+router.post('/', multerUploads, createPropertyAd);
 router.get('/', getAllProperty);
-router.get('/:property_type/type', getSpecificPropType);
-router.get('/:property_id', getSpecificProperty);
-// router.post('/', multerUploads,  postAdValidator, createPropAd);
+router.get('/:type/type', getSpecificPropType);
+router.get('/:id', getSpecificProperty);
+
 // router.patch('/:property_id', updateAdDataValidator, updatePropertyAdData);
 // router.patch('/:property_id/sold', updateAdStatusValidator, updatePropertyAdStatus);
 // router.delete('/:property_id', deleteProperty);

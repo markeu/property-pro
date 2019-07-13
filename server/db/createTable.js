@@ -22,7 +22,7 @@ const tablesQuerry = `
     DROP TABLE IF EXISTS flag CASCADE;
     
     CREATE TABLE users(
-             id BIGSERIAL PRIMARY KEY,
+             id SERIAL PRIMARY KEY,
              email VARCHAR UNIQUE NOT NULL,
              first_name VARCHAR NOT NULL,
              last_name VARCHAR NOT NULL,
@@ -32,7 +32,7 @@ const tablesQuerry = `
     );
     
     CREATE TABLE property(
-             id BIGSERIAL PRIMARY KEY,
+             id SERIAL PRIMARY KEY,
              owner INT NOT NULL,
              status VARCHAR NOT NULL DEFAULT 'available',
              price FLOAT(2) NOT NULL,
@@ -45,7 +45,7 @@ const tablesQuerry = `
     );
     
     CREATE TABLE flag(
-             id BIGSERIAL NOT NULL PRIMARY KEY,
+             id SERIAL PRIMARY KEY,
              property_id BIGINT NOT NULL,
              created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'WAT'),
              reason VARCHAR NOT NULL,

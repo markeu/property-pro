@@ -28,15 +28,14 @@ export default class Properties {
       } = property;
       const { rows } = await pool.query(
         `INSERT INTO property
-      ("owner", "status", "price", "state", 
-      "city", "address", "type", "imgage_url") 
+      (owner, status, price, state, city, address, type, image_url) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *`,
-        [owner, status, price, state, city, address, type, image_url]
+        [1, status, price, state, city, address, type, image_url]
       );
       return rows[0];
     }
-    
+
   /**
    * @static
    * @description Method to select one specific property advert
@@ -61,8 +60,9 @@ export default class Properties {
   static async getPropQuery() {
     const data = await pool.query(
       `SELECT * FROM property`
-    );
-    return data.rows;
+      );
+      console.log(data)
+      return data.rows;
   }
     /**
    * @static
@@ -72,9 +72,7 @@ export default class Properties {
    * @memberof Properties
    */
   static async getPropTypeQuery(type) {
-    const data = await pool.query(
-      `SELECT * FROM property WHERE type = ${type}`
-    );
+    const data = await pool.query( "SELECT * FROM property WHERE type= $1;", [type]);
     return data.rows;
   }
 

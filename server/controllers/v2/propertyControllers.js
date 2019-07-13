@@ -23,34 +23,21 @@ export default class PropertyController{
      * @memberof PropertyController
      */
     static async createPropertyAd(req, res, next) {
-        try {
-          const { owner, status, price, state, city, address, type, image_url } = req.body;
-          const dataId = req.body;
-          dataId.uploadedBy =req.user.id;
-          if(req.file){
-            const file = dataUri(req).content;
-              await uploader.upload(file).then((result) => {
-            const data = {...dataId, image_url: result.url}
-        //     await create(data);
-        //     return successfulRequest(res, 201, {
-        //     id:          id,
-        //     Owner:       owner,
-        //     Status:      status,
-        //     Price:       price,
-        //     State:       state,
-        //     City:        city,
-        //     Address:     address,
-        //     Type:        type,
-        //     created_on:  created_on,
-        //     image_url:   image_url
-        //   });
-        });
-    }
-} catch (err) {
-    return next(err);
+        try{
+            if(req.file) {
+                const file = dataUri(req).content;
+                const image = await uploader.upload(file);
+                if (image) {
+                    const data = {...req.body, image_url: image.url}
+                    const newAd = await create(data);
+                    return successfulRequest(res, 201, newAd);
+                }
+                return badPostRequest(res, 404, { message: 'Property Type not found' });
+            }
+        }catch (err) {
+        return next(err);
         }
-      }
-
+    }
   /**
    * @description Get specific property advert with id details
    *
@@ -66,7 +53,6 @@ export default class PropertyController{
       const { id } = req.params;
       const propertyDetails = await selectOneProperty(parseInt(id, 10));
       if (propertyDetails) {
-        delete propertyDetails.uploadedBy;
         return successfulRequest(res, 200, propertyDetails);
       }
         return badGetRequest(res, 404, { message: 'Property advert not found' });
@@ -86,17 +72,11 @@ export default class PropertyController{
    */
   static async getAllProperty(req, res, next) {
     try {
-      const allProperty = await getPropQuery();
-      if (allProperty.length > 0) {
-        const propertyDetails = allProperty.map((property) => {
-            delete propertyDetails.uploadedBy;
-          return property;
-        });
-        return successfulRequest(res, 200, propertyDetails);
+      const allProperties = await getPropQuery();
+      if (allProperties.length > 0) {
+        return successfulRequest(res, 200, allProperties);
       }
-      return badGetRequest(res, 404, {
-        message: 'There are no properties in this database'
-      });
+      return badGetRequest(res, 404, {message: 'There are no such property in this database'});
     } catch (err) {
       return next(err);
     }
@@ -114,9 +94,9 @@ export default class PropertyController{
   static async getSpecificPropType(req, res, next) {
     try {
       const { type } = req.params;
+      console.log(type)
       const propertyDetails = await getPropTypeQuery(type);
       if (propertyDetails) {
-        delete propertyDetails.uploadedBy;
         return successfulRequest(res, 200, propertyDetails);
       }
         return badGetRequest(res, 404, { message: 'Property Type not found' });
