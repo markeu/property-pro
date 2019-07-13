@@ -1,9 +1,10 @@
 import PropertyModel from '../../models/v2/PropertyModel';
 import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
-import { uploader } from '../../config/cloudinaryConfig'
+import { uploader } from '../../config/cloudinaryConfig';
+import isEmpty from '../../helpers/isEmpty';
 
-const { create, selectOneProperty, getPropQuery, getPropTypeQuery } = PropertyModel;
+const { create, selectOneProperty, getPropQuery, getPropTypeQuery,updateAdStatus } = PropertyModel;
 const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
 /**
  *
@@ -81,6 +82,7 @@ export default class PropertyController{
       return next(err);
     }
   }
+
   /**
    * @description Get specific property advert (type: property type)
    *
@@ -94,7 +96,6 @@ export default class PropertyController{
   static async getSpecificPropType(req, res, next) {
     try {
       const { type } = req.params;
-      console.log(type)
       const propertyDetails = await getPropTypeQuery(type);
       if (propertyDetails) {
         return successfulRequest(res, 200, propertyDetails);
@@ -105,4 +106,40 @@ export default class PropertyController{
     }
   }
 
+/**
+   * @description Update verification status of a book
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {object} updatedBookDetails
+   * @memberof PropertyController
+   */
+  static async updatePropertyAdStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const data = {};
+      console.log(status, '=======>');
+      const propToBeUpdated = await selectOneProperty(parseInt(id, 10));
+      if (isEmpty(propToBeUpdated)) {
+        return badGetRequest(res, 404, { propertyId: 'Property not found' });
+      }
+      if (propToBeUpdated.status === status ) {
+        return badPostRequest(res, 409, {
+         status: `This property status is already ${ status }`
+        });
+      }
+      data.id = id;
+      data.status = status;
+      console.log(data.status, '=======>');
+      const updatedPropDetails = await updateAdStatus(data);
+      return successfulRequest(res, 200, updatedPropDetails);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  
  }

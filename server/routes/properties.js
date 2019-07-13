@@ -15,9 +15,10 @@ router.post('/', multerUploads, createPropertyAd);
 router.get('/', getAllProperty);
 router.get('/:type/type', getSpecificPropType);
 router.get('/:id', getSpecificProperty);
+router.patch('/:id/sold', updatePropertyAdStatus);
 
-// router.patch('/:property_id', updateAdDataValidator, updatePropertyAdData);
-// router.patch('/:property_id/sold', updateAdStatusValidator, updatePropertyAdStatus);
+// router.patch('/:property_id', updatePropertyAdData);
+
 // router.delete('/:property_id', deleteProperty);
 
 

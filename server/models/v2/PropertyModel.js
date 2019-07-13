@@ -76,4 +76,19 @@ export default class Properties {
     return data.rows;
   }
 
+  /**
+   * @static
+   * @description Method to select all properties with details
+   * @param {number} id Id of the property to be updated
+   * @param {string} status new status of the property
+   * @returns {object} Details of the newly updated property
+   * @memberof Books
+   */
+  static async updateAdStatus({ status, id }) {
+    const data = await pool.query(
+      `UPDATE property SET "status" = '${status}' 
+      WHERE property.id = ${id} RETURNING *`
+    );
+    return data.rows[0];
+  }
 }
