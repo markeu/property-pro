@@ -4,8 +4,10 @@ import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig';
 import isEmpty from '../../helpers/isEmpty';
 
-const { create, selectOneProperty, getPropQuery, getPropTypeQuery,updateAdStatus, updateAdData } = PropertyModel;
+const { create, selectOneProperty, getPropQuery, getPropTypeQuery,
+        updateAdStatus,updateAdData, deleteOneProperty } = PropertyModel;
 const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
+
 /**
  *
  *
@@ -169,4 +171,28 @@ export default class PropertyController{
     }
   }  
   
+  /**
+   *
+   * Method to delete property advert
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} containing response to the user
+   * @memberof PropertyController
+   */
+  static async deleteProperty(req, res) {
+    const propertyId = await selectOneProperty(req.params.id);
+    if (!propertyId) {
+      return badPostRequest(res, 404, { message: 'Property Not Found' });
+    }
+    const deletedProperty = await deleteOneProperty(1, propertyId);
+    if (!deletedProperty) {
+      return badPostRequest(res, 404, {
+        message: 'Property advert not found '
+      });
+    }
+    return successfulRequest(res, 200, {
+      message: 'Property advert successfully deleted'
+    });
+  }
  }

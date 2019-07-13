@@ -123,16 +123,16 @@ export default class Properties {
    *
    * Delete Property Advert
    * @static
-   * @param {string} user_Id
+   * @param {string} userId
    * @param {string} propertyId
    * @returns {object} Delete Property Advert
    * @memberof Properties
    */
-  static async deleteProperty(user_Id, id) {
+  static async deleteOneProperty(id) {
     const data = await pool.query(
       `DELETE FROM property 
-    WHERE "user_Id" = $1 and "id" = $2 RETURNING *`,
-      [user_Id, id]
+    WHERE "id" = $1 RETURNING *`,
+      [id]
     );
     if (data.rowCount < 1) return false;
     return data.rows[0];

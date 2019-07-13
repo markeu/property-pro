@@ -16,10 +16,8 @@ router.get('/', getAllProperty);
 router.get('/:type/type', getSpecificPropType);
 router.get('/:id', getSpecificProperty);
 router.patch('/:id/sold', updatePropertyAdStatus);
-
 router.patch('/:id', updatePropertyAdData);
-
-// router.delete('/:property_id', deleteProperty);
+router.delete('/:id', deleteProperty);
 
 
  
