@@ -78,11 +78,11 @@ export default class Properties {
 
   /**
    * @static
-   * @description Method to select all properties with details
+   * @description Method to update property ad status
    * @param {number} id Id of the property to be updated
    * @param {string} status new status of the property
    * @returns {object} Details of the newly updated property
-   * @memberof Books
+   * @memberof Properties
    */
   static async updateAdStatus({ status, id }) {
     const data = await pool.query(
@@ -91,4 +91,57 @@ export default class Properties {
     );
     return data.rows[0];
   }
+
+  /**
+   * @static
+   * @description update property advert data with details
+   * @param {number} id Id of the property to be updated
+   * @param {string} status new status of the property
+   * @returns {object} Details of the newly updated property
+   * @memberof Properties
+   */
+  static async updateAdData(property, id) {
+    const {
+      owner,
+      status,
+      price,
+      state,
+      city,
+      address,
+      type,
+      image_url
+    } = property;
+    const { rows } = await pool.query(
+    `UPDATE property
+    SET (owner=$1, status=$2, price=$3, state=$4, city=$5, 
+    address=$6, type=$7, image_url=$8; ) [1, status, price, state, city, address, type, image_url] 
+    WHERE property.id=${id} RETURNING *`);
+    return rows[0];
+  }
+
+   /**
+   *
+   * Delete Property Advert
+   * @static
+   * @param {string} user_Id
+   * @param {string} propertyId
+   * @returns {object} Delete Property Advert
+   * @memberof Properties
+   */
+  static async deleteProperty(user_Id, id) {
+    const data = await pool.query(
+      `DELETE FROM property 
+    WHERE "user_Id" = $1 and "id" = $2 RETURNING *`,
+      [user_Id, id]
+    );
+    if (data.rowCount < 1) return false;
+    return data.rows[0];
+  }
 }
+
+// [1, status, price, state, city, address, type, image_url]
+
+// UPDATE Supplier
+//    SET City = 'Oslo', Phone = '(0)1-953530', Fax = '(0)1-953555'
+//  WHERE Id = 15
+  // ( "SELECT * FROM property WHERE type= $1;", [type]);

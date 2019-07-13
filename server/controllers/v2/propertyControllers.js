@@ -4,7 +4,7 @@ import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig';
 import isEmpty from '../../helpers/isEmpty';
 
-const { create, selectOneProperty, getPropQuery, getPropTypeQuery,updateAdStatus } = PropertyModel;
+const { create, selectOneProperty, getPropQuery, getPropTypeQuery,updateAdStatus, updateAdData } = PropertyModel;
 const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
 /**
  *
@@ -107,13 +107,13 @@ export default class PropertyController{
   }
 
 /**
-   * @description Update verification status of a book
+   * @description Update status of a property advert
    *
    * @static
    * @param {object} req
    * @param {object} res
    * @param {function} next
-   * @returns {object} updatedBookDetails
+   * @returns {object} updatedProperty details
    * @memberof PropertyController
    */
   static async updatePropertyAdStatus(req, res, next) {
@@ -141,5 +141,32 @@ export default class PropertyController{
     }
   }
 
+  /**
+   * @description Update data of a property
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {object} updatedpropertyDetails
+   * @memberof PropertyController
+   */
+  static async updatePropertyAdData(req, res, next) {
+    try {
+      const { id } = req.params;
+      const dataFetch = { ...req.body };
+      const data = {};
+      const propToBeUpdated = await selectOneProperty(parseInt(id, 10));
+      if (isEmpty(propToBeUpdated)) {
+        return badGetRequest(res, 404, { propertyId: 'Property not found' });
+      }
+      data.id = id;
+      data.dataFetch = dataFetch;
+      const updatedPropDetails = await updateAdData(data);
+      return successfulRequest(res, 200, updatedPropDetails);
+    } catch (err) {
+      return next(err);
+    }
+  }  
   
  }
