@@ -49,9 +49,11 @@ const tablesQuerry = `
              property_id BIGINT NOT NULL,
              created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'WAT'),
              reason VARCHAR NOT NULL,
-             description VARCHAR NOT NULL
+             description VARCHAR NOT NULL,
+             reported_by INT NOT NULL
     );
     ALTER TABLE "property" ADD FOREIGN KEY ("owner") REFERENCES "users" ("id");
+    ALTER TABLE "flag" ADD FOREIGN KEY ("reported_by") REFERENCES "users" ("id");
 `;
 
 

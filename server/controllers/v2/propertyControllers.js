@@ -2,7 +2,7 @@ import PropertyModel from '../../models/v2/PropertyModel';
 import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig';
-import isEmpty from '../../helpers/isEmpty'
+
 
 const { create, selectOneProperty, getPropQuery, getPropTypeQuery,
         updateAdStatus,updateAdData, deleteOneProperty } = PropertyModel;
@@ -33,7 +33,6 @@ export default class PropertyController{
                 if (image) {
                     const data = {...req.body, image_url: image.url, owner: req.user.id}
                     const newAd = await create(data);
-                    console.log(newAd, '========>')
                     return res.status(200).json({
                       status: 'success',
                       data: newAd
@@ -67,7 +66,10 @@ export default class PropertyController{
       }
         return badGetRequest(res, 404, { message: 'Property advert not found' });
     }catch (err) {
-    return next(err);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    });
     }
   }
 
@@ -92,7 +94,10 @@ export default class PropertyController{
         message: 'There are no properties in this database',
       });
     } catch (err) {
-      return next(err);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
     }
   }
 
@@ -120,7 +125,11 @@ export default class PropertyController{
         status: 'success',
         data: propertyDetails
       });
-     }catch (err) {;
+     }catch (err) {
+       return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
     }
   }
 
@@ -161,7 +170,7 @@ export default class PropertyController{
       if (Object.keys(propToBeUpdated.status).length === 0) {
         return res.status(400).json({
           status: 'error',
-          message: "Status field value should be either 'sold' or 'available'!! ",
+          message: "Status key must be defined",
         });
       }
       const data = {id, status};
@@ -256,6 +265,5 @@ export default class PropertyController{
       data: 'Internal server error'
     });
   }
-
  }
 

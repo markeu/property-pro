@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import bycrpt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -45,7 +46,7 @@ export const decryptPassword = (inputPassword, encryptedPassword) => {
    */
 export const generateToken = (user) => {
 	const payload = { id: user.id, email: user.email };
-	const token = jwt.sign(payload, '123456', {
+	const token = jwt.sign(payload, process.env.JWT_SECRET, {
 		expiresIn: '24h'
 	});
 	return token;

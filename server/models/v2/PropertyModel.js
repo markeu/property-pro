@@ -44,7 +44,9 @@ export default class Properties {
    * @memberof Properties
    */  
   static async selectOneProperty(id) {
+    console.log(id, '______-------______');
     const data = await pool.query( "SELECT * FROM property WHERE id= $1;", [id]);
+    console.log(data, '=======<<<<<<<< selected one')
     return data.rows[0];
   }
   /**

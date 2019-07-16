@@ -4,11 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-	user: 'uche',
-	host: 'localhost',
-	database: 'property_pro',
-	password: '',
-	port: 5432,
+	connectionString: 'postgres://jtuucwpe:amRj0BBBECleGaS_H2Pyu0xiC7sDoEpI@raja.db.elephantsql.com:5432/jtuucwpe'
 });
 
 export default pool;

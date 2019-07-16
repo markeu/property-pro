@@ -27,11 +27,11 @@ export class UsersController {
    * @returns {object} Object containing token to the user
    * @memberof UsersController
    */
-
   static async signUp (req, res, next) {
       const data = req.body;
       const { password } = data;
       data.password = encryptPassword(password);
+
     const value = {
       first_name: data.first_name, 
       last_name: data.last_name, 
@@ -54,7 +54,7 @@ export class UsersController {
         if (error.routine === '_bt_check_unique') {
           return res.status(400).send({
             status: 'error',
-            data: 'email already exit'
+            data: 'User with email already exist'
           });
         }
         return res.status(400).send({
@@ -83,7 +83,7 @@ export class UsersController {
             if (!rows[0]) {
               return res.status(404).json({
                 status: 'error',
-                message: 'Invalid login details',
+                message: 'The credentials you provided is incorrect',
               });
             }
         const passwordValid = await decryptPassword(data.password, rows[0].password);
@@ -91,14 +91,18 @@ export class UsersController {
             if (!passwordValid) {
               return res.status(400).json({
                 status: 'error',
-                message: 'Invalid login details',
+                message: 'The credentials you provided is incorrect',
               });
             }
-        const userData = data;
-       
-        delete userData.password;
+        const userData = { id: rows[0].id, email: rows[0].email  };
         const token = await generateToken(userData);
-        return successfulRequest(res, 200, { id: data.id, token });
+        return res.status(201).json({
+          status: 'success',
+          data: {
+            ...rows[0],
+            token
+          }
+        });
       } catch (err) {
         return res.status(500).json({
           status: 'error',
