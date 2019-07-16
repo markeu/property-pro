@@ -1,16 +1,15 @@
 import UserModel from '../../../server/models/v2/UserModel';
-import encrypt from '../../middleware/encrypt';
-import ServerResponse from '../../responseSpec/spec';
+import { encryptPassword, decryptPassword, generateToken } from '../../middleware/encrypt';
+import { badPostRequest, successfulRequest } from '../../responseSpec/spec';
 import pool from '../../db';
 
 
-const { encryptPassword, decryptPassword, generateToken} = encrypt;
 const {
-    findUserInput,
-    create,
-    createProfile
+
+    createUser,
+  
 } = UserModel;
-const { badPostRequest, badGetRequest, successfulRequest } = ServerResponse;
+
 
 /**
  *
@@ -18,7 +17,7 @@ const { badPostRequest, badGetRequest, successfulRequest } = ServerResponse;
  * @export
  * @class UsersController
  */
-export default class UsersController {
+export class UsersController {
     /**
    * Signup middleware - Create User Account
    * @static
@@ -33,30 +32,35 @@ export default class UsersController {
       const data = req.body;
       const { password } = data;
       data.password = encryptPassword(password);
-
-      const createQuery = `INSERT INTO
-      users("first_name", "last_name", "email", "address", "password")
-      VALUES($1, $2, $3, $4, $5)
-      returning * `;
-
-      const values = [
-        req.body.first_name,
-        req.body.last_name,
-        (req.body.email).trim().toLowerCase(),
-        req.body.address,
-        data.password,
-      ];
+    const value = {
+      first_name: data.first_name, 
+      last_name: data.last_name, 
+      password: data.password, 
+      email: data.email,
+      phone_number: data.phone_number,
+      address: data.address
+    }
       try {
-        const { rows } = await pool.query(createQuery, values);
-        return res.status(201).send({
-          status: 'success',
-          data: rows[0].id,
-        });
+        const user  = await createUser(value)
+        if (user) {
+           const token = generateToken(user);
+           const data = {...user, token }
+          return res.status(201).send({
+            status: 'success',
+            data
+          });
+        }
       } catch (error) {
         if (error.routine === '_bt_check_unique') {
-          return badPostRequest(res, 400, {email: 'Email already exists'});
+          return res.status(400).send({
+            status: 'error',
+            data: 'email already exit'
+          });
         }
-        return badPostRequest(res, 400, { email: 'Failed signup'});
+        return res.status(400).send({
+          status: 'error',
+          data: 'Internal server error'
+        });
       }
     }
   
@@ -74,20 +78,32 @@ export default class UsersController {
       try {
         const data = req.body;
         const query = 'SELECT * FROM users WHERE email = $1';
+        
         const { rows } = await pool.query(query, [req.body.email]);
             if (!rows[0]) {
-              return badPostRequest(res, 404, { message: 'Invalid Login Details' });
+              return res.status(404).json({
+                status: 'error',
+                message: 'Invalid login details',
+              });
             }
         const passwordValid = await decryptPassword(data.password, rows[0].password);
+    
             if (!passwordValid) {
-              return badPostRequest(res, 401, { message: 'Invalid Login Details' });
+              return res.status(400).json({
+                status: 'error',
+                message: 'Invalid login details',
+              });
             }
         const userData = data;
+       
         delete userData.password;
         const token = await generateToken(userData);
         return successfulRequest(res, 200, { id: data.id, token });
       } catch (err) {
-        return next(err);
+        return res.status(500).json({
+          status: 'error',
+          message: 'Internal server error',
+        });
       }
     }
   } 

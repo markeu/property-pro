@@ -40,7 +40,6 @@ class propertyController {
 
     return res.status(200).send({
       status: 'success',
-      error: 'All Property Ads retrieved successfully',
       data: allProperty,
     });
   }
@@ -52,7 +51,7 @@ class propertyController {
     if (!property1.length) {
       return res.status(404).json({
         status: 'error',
-        error: 'Property Type does not exist',
+        message: 'Property Type does not exist',
       });
     }
     return res.status(200).json({
@@ -68,7 +67,7 @@ class propertyController {
     if (!property2.length) {
       return res.status(404).json({
         status: 'error',
-        error: 'Property does not exist',
+        message: 'Property does not exist',
       });
     }
 

@@ -2,11 +2,11 @@ import PropertyModel from '../../models/v2/PropertyModel';
 import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig';
-import isEmpty from '../../helpers/isEmpty';
+import isEmpty from '../../helpers/isEmpty'
 
 const { create, selectOneProperty, getPropQuery, getPropTypeQuery,
         updateAdStatus,updateAdData, deleteOneProperty } = PropertyModel;
-const { successfulRequest, badGetRequest, badPostRequest } = ServerResponse;
+const { successfulRequest, badGetRequest } = ServerResponse;
 
 /**
  *
@@ -25,22 +25,29 @@ export default class PropertyController{
      * @returns {object} propertyDetails
      * @memberof PropertyController
      */
-    static async createPropertyAd(req, res, next) {
-        try{
+  static async createPropertyAd (req, res, next) {
+        try{        
             if(req.file) {
                 const file = dataUri(req).content;
-                const image = await uploader.upload(file);
+                const image = await uploader.upload(file);               
                 if (image) {
-                    const data = {...req.body, image_url: image.url}
+                    const data = {...req.body, image_url: image.url, owner: req.user.id}
                     const newAd = await create(data);
-                    return successfulRequest(res, 201, newAd);
+                    console.log(newAd, '========>')
+                    return res.status(200).json({
+                      status: 'success',
+                      data: newAd
+                    });
                 }
-                return badPostRequest(res, 404, { message: 'Property Type not found' });
             }
         }catch (err) {
-        return next(err);
-        }
+  		return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
     }
+  }
+
   /**
    * @description Get specific property advert with id details
    *
@@ -63,6 +70,7 @@ export default class PropertyController{
     return next(err);
     }
   }
+
 /**
    * @description Get all properties
    *
@@ -79,7 +87,10 @@ export default class PropertyController{
       if (allProperties.length > 0) {
         return successfulRequest(res, 200, allProperties);
       }
-      return badGetRequest(res, 404, {message: 'There are no such property in this database'});
+      return res.status(400).json({
+        status: 'error',
+        message: 'There are no properties in this database',
+      });
     } catch (err) {
       return next(err);
     }
@@ -99,12 +110,17 @@ export default class PropertyController{
     try {
       const { type } = req.params;
       const propertyDetails = await getPropTypeQuery(type);
-      if (propertyDetails) {
-        return successfulRequest(res, 200, propertyDetails);
-      }
-        return badGetRequest(res, 404, { message: 'Property Type not found' });
-    }catch (err) {
-    return next(err);
+      if (!propertyDetails) { 
+        return res.status(400).json({
+        status: 'error',
+        message: 'property does not exist',
+      });
+    }
+      return res.status(200).json({
+        status: 'success',
+        data: propertyDetails
+      });
+     }catch (err) {;
     }
   }
 
@@ -122,24 +138,43 @@ export default class PropertyController{
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const data = {};
-      console.log(status, '=======>');
       const propToBeUpdated = await selectOneProperty(parseInt(id, 10));
-      if (isEmpty(propToBeUpdated)) {
-        return badGetRequest(res, 404, { propertyId: 'Property not found' });
-      }
+
+      if (!propToBeUpdated) {
+        return res.status(400).json({
+         status: 'error',
+         message: 'property does not exist',
+       });
+     }
+      if(req.user.id != propToBeUpdated.owner) {
+        return res.status(401).json({
+          status: 'error',
+          message: 'unauthorized to perform action',
+        });
+     }
       if (propToBeUpdated.status === status ) {
-        return badPostRequest(res, 409, {
-         status: `This property status is already ${ status }`
+        return res.status(400).json({
+          status: 'error',
+          message: `property is already set to ${status}`,
         });
       }
-      data.id = id;
-      data.status = status;
-      console.log(data.status, '=======>');
+      if (Object.keys(propToBeUpdated.status).length === 0) {
+        return res.status(400).json({
+          status: 'error',
+          message: "Status field value should be either 'sold' or 'available'!! ",
+        });
+      }
+      const data = {id, status};
       const updatedPropDetails = await updateAdStatus(data);
-      return successfulRequest(res, 200, updatedPropDetails);
+      return res.status(200).json({
+        status: 'success',
+        data: updatedPropDetails
+      });
     } catch (err) {
-      return next(err);
+  		return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
     }
   }
 
@@ -157,20 +192,34 @@ export default class PropertyController{
     try {
       const { id } = req.params;
       const dataFetch = { ...req.body };
-      const data = {};
-      const propToBeUpdated = await selectOneProperty(parseInt(id, 10));
-      if (isEmpty(propToBeUpdated)) {
-        return badGetRequest(res, 404, { propertyId: 'Property not found' });
-      }
-      data.id = id;
-      data.dataFetch = dataFetch;
-      const updatedPropDetails = await updateAdData(data);
-      return successfulRequest(res, 200, updatedPropDetails);
+      const propsToBeUpdated = await selectOneProperty(parseInt(id, 10));
+
+      if (!propsToBeUpdated) {
+        return res.status(400).json({
+         status: 'error',
+         message: 'property does not exist',
+       });
+     }  
+     if ( req.user.id != propsToBeUpdated.owner)
+      return res.status(401).json({
+        status: 'error',
+        message: 'unauthorized',
+      });
+     
+      const newData = Object.assign(propsToBeUpdated, dataFetch);
+      const updatedPropDetail = await updateAdData(newData, id);    
+      return res.status(200).json({
+        status: 'success',
+        data: updatedPropDetail
+      });
     } catch (err) {
-      return next(err);
-    }
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error'
+      });
   }  
-  
+}
+
   /**
    *
    * Method to delete property advert
@@ -181,18 +230,32 @@ export default class PropertyController{
    * @memberof PropertyController
    */
   static async deleteProperty(req, res) {
-    const propertyId = await selectOneProperty(req.params.id);
+    const { id } = req.params;
+    const propertyId = await selectOneProperty(id);
     if (!propertyId) {
-      return badPostRequest(res, 404, { message: 'Property Not Found' });
-    }
-    const deletedProperty = await deleteOneProperty(1, propertyId);
-    if (!deletedProperty) {
-      return badPostRequest(res, 404, {
-        message: 'Property advert not found '
+      return res.status(400).json({
+       status: 'error',
+       message: 'property does not exist',
+     });
+   }
+   if ( req.user.id != propertyId.owner)
+   return res.status(401).json({
+     status: 'error',
+     message: 'unauthorized',
+   });
+
+    const deletedProperty = await deleteOneProperty(id);
+    if (deletedProperty) {
+      return res.status(200).json({
+        status: 'success',
+        data: 'Property advert succesfully deleted'
       });
     }
-    return successfulRequest(res, 200, {
-      message: 'Property advert successfully deleted'
+    return res.status(400).json({
+      status: 'error',
+      data: 'Internal server error'
     });
   }
+
  }
+

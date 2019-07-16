@@ -10,8 +10,7 @@ dotenv.config();
  * @export
  * @class encrypt
  */
-export default class encrypt {
-	/**
+/**
    *
    * Encrypt User Password
    * @static
@@ -19,11 +18,11 @@ export default class encrypt {
    * @returns {string} Encrypted Password
    * @memberof encrypt
    */
-	static encryptPassword(password) {
-		return bycrpt.hashSync(password, 10);
-	}
+export const encryptPassword = (password) => {
+	return bycrpt.hashSync(password, 10);
+};
 
-	/**
+/**
    *
    * Decrypt User Password
    * @static
@@ -32,11 +31,11 @@ export default class encrypt {
    * @returns {boolen} True if valid
    * @memberof encrypt
    */
-	static decryptPassword(inputPassword, encryptedPassword) {
-		return bycrpt.compareSync(inputPassword, encryptedPassword);
-	}
+export const decryptPassword = (inputPassword, encryptedPassword) => {
+	return bycrpt.compareSync(inputPassword, encryptedPassword);
+};
 
-	/**
+/**
    *
    * Generate user token
    * @static
@@ -44,11 +43,11 @@ export default class encrypt {
    * @returns {string} Token
    * @memberof encrypt
    */
-	static generateToken(user) {
-		const payload = { id: user.id, email: user.email };
-		const token = jwt.sign(payload, process.env.JWT_SECRET, {
-			expiresIn: '24h'
-		});
-		return token;
-	}
-}
+export const generateToken = (user) => {
+	const payload = { id: user.id, email: user.email };
+	const token = jwt.sign(payload, '123456', {
+		expiresIn: '24h'
+	});
+	return token;
+};
+

@@ -15,13 +15,11 @@ export default class UserModel {
    * @memberof Users
    */
     static async createUser(user) {
-        const { first_name, last_name, phone_number, email, address, } = user;
-        let { role } = user;
-        const { rows } = await pool.query(`INSERT INTO
-    users
-    ("first_name", "last_name", phone_number", "email", "address", role)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *`, [first_name, last_name, phone_number, email, address, role]);
+        const { first_name, last_name,  password, email, address, } = user;
+        const { rows } = await pool.query(`INSERT INTO users
+        (first_name, last_name, password, email, address, is_admin)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *`, [first_name, last_name, password, email, address, false]);
         return rows[0];
     }
     /**

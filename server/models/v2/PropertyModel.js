@@ -31,7 +31,7 @@ export default class Properties {
       (owner, status, price, state, city, address, type, image_url) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *`,
-        [1, status, price, state, city, address, type, image_url]
+        [owner, status, price, state, city, address, type, image_url]
       );
       return rows[0];
     }
@@ -42,12 +42,9 @@ export default class Properties {
    * @param {number} id Id of the property to be returned
    * @returns {object} Single property advert details
    * @memberof Properties
-   */
+   */  
   static async selectOneProperty(id) {
-    const data = await pool.query(
-      `SELECT * FROM property WHERE id = ${id}`
-    );
-    (data.rows[0]);
+    const data = await pool.query( "SELECT * FROM property WHERE id= $1;", [id]);
     return data.rows[0];
   }
   /**
@@ -86,8 +83,8 @@ export default class Properties {
    */
   static async updateAdStatus({ status, id }) {
     const data = await pool.query(
-      `UPDATE property SET "status" = '${status}' 
-      WHERE property.id = ${id} RETURNING *`
+      `UPDATE property SET status= $1 
+      WHERE id= $2 RETURNING *`, [status, id]
     );
     return data.rows[0];
   }
@@ -102,7 +99,6 @@ export default class Properties {
    */
   static async updateAdData(property, id) {
     const {
-      owner,
       status,
       price,
       state,
@@ -113,9 +109,8 @@ export default class Properties {
     } = property;
     const { rows } = await pool.query(
     `UPDATE property
-    SET (owner=$1, status=$2, price=$3, state=$4, city=$5, 
-    address=$6, type=$7, image_url=$8; ) [1, status, price, state, city, address, type, image_url] 
-    WHERE property.id=${id} RETURNING *`);
+    SET owner=1, status=$2, price=$3, state=$4, city=$5, address=$6, type=$7, image_url=$8 
+    WHERE id=$1 RETURNING *`, [id, status, price, state, city, address, type, image_url]);
     return rows[0];
   }
 
@@ -129,19 +124,9 @@ export default class Properties {
    * @memberof Properties
    */
   static async deleteOneProperty(id) {
-    const data = await pool.query(
-      `DELETE FROM property 
-    WHERE "id" = $1 RETURNING *`,
-      [id]
-    );
-    if (data.rowCount < 1) return false;
-    return data.rows[0];
+    const data = await pool.query("DELETE FROM property WHERE id= $1", [id]);
+    if (data.rowCount === 1) return true;
+    return false;
   }
 }
 
-// [1, status, price, state, city, address, type, image_url]
-
-// UPDATE Supplier
-//    SET City = 'Oslo', Phone = '(0)1-953530', Fax = '(0)1-953555'
-//  WHERE Id = 15
-  // ( "SELECT * FROM property WHERE type= $1;", [type]);
