@@ -83,7 +83,7 @@ export class UsersController {
             if (!rows[0]) {
               return res.status(404).json({
                 status: 'error',
-                message: 'The credentials you provided is incorrect',
+                error: 'The credentials you provided is incorrect',
               });
             }
         const passwordValid = await decryptPassword(data.password, rows[0].password);
@@ -91,7 +91,7 @@ export class UsersController {
             if (!passwordValid) {
               return res.status(400).json({
                 status: 'error',
-                message: 'The credentials you provided is incorrect',
+                error: 'The credentials you provided is incorrect',
               });
             }
         const userData = { id: rows[0].id, email: rows[0].email  };
@@ -106,7 +106,7 @@ export class UsersController {
       } catch (err) {
         return res.status(500).json({
           status: 'error',
-          message: 'Internal server error',
+          error: 'Internal server error',
         });
       }
     }

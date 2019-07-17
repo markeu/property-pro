@@ -29,7 +29,7 @@ export default class FlagController{
       if (!propertyDetails) {
         return res.status(404).send({
           status: 'error',
-          message: 'Property advert not found'
+          error: 'Property advert not found'
         });
       }
       const data = { ...req.body, property_id: id , reported_by: req.user.id  };
@@ -67,7 +67,7 @@ export default class FlagController{
       }
       return res.status(400).json({
         status: 'error',
-        message: 'There are no flagged advert in this database',
+        error: 'There are no flagged advert in this database',
       });
     } catch (err) {
       return res.status(500).send({

@@ -29,7 +29,7 @@ export default class ResponseSpec {
 	static badGetRequest(res, status, message) {
 		return res.status(status).json({
 			status: 'error',
-			data: message
+			error: message
 		});
 	}
   
@@ -60,7 +60,7 @@ export default class ResponseSpec {
 	static serverError(err, req, res, next) {
 		return res.status(500).json({
 			status: 'error',
-			message: 'Sorry, something unusual happened, we are working on a fix'
+			error: 'Sorry, something unusual happened, we are working on a fix'
 		});
 	}
   
@@ -73,7 +73,7 @@ export default class ResponseSpec {
 	static error404(req, res) {
 		res.status(404).json({
 			status: 'error',
-			message: 'Oops!! Page not found'
+			error: 'Oops!! Page not found'
 		});
 	}
 }

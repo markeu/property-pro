@@ -44,9 +44,7 @@ export default class Properties {
    * @memberof Properties
    */  
   static async selectOneProperty(id) {
-    console.log(id, '______-------______');
     const data = await pool.query( "SELECT * FROM property WHERE id= $1;", [id]);
-    console.log(data, '=======<<<<<<<< selected one')
     return data.rows[0];
   }
   /**
@@ -72,6 +70,7 @@ export default class Properties {
    */
   static async getPropTypeQuery(type) {
     const data = await pool.query( "SELECT * FROM property WHERE type= $1;", [type]);
+    console.log(data.rows, '=================== data rows')
     return data.rows;
   }
 

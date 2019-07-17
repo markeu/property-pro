@@ -26,23 +26,25 @@ export default class PropertyController{
      * @memberof PropertyController
      */
   static async createPropertyAd (req, res, next) {
-        try{        
+        try{    
+          let image; 
             if(req.file) {
                 const file = dataUri(req).content;
-                const image = await uploader.upload(file);               
-                if (image) {
-                    const data = {...req.body, image_url: image.url, owner: req.user.id}
+                image = await uploader.upload(file);
+            } 
+            const imageUrl = image || 'image'         
+                if (imageUrl) {
+                    const data = {...req.body, image_url: imageUrl, owner: req.user.id}
                     const newAd = await create(data);
-                    return res.status(200).json({
+                    return res.status(201).json({
                       status: 'success',
                       data: newAd
                     });
-                }
             }
         }catch (err) {
   		return res.status(500).json({
         status: 'error',
-        message: 'Internal server error',
+        error: 'Internal server error',
       });
     }
   }
@@ -68,7 +70,7 @@ export default class PropertyController{
     }catch (err) {
     return res.status(500).json({
       status: 'error',
-      message: 'Internal server error',
+      error: 'Internal server error',
     });
     }
   }
@@ -91,12 +93,12 @@ export default class PropertyController{
       }
       return res.status(400).json({
         status: 'error',
-        message: 'There are no properties in this database',
+        error: 'There are no properties in this database',
       });
     } catch (err) {
       return res.status(500).json({
         status: 'error',
-        message: 'Internal server error',
+        error: 'Internal server error',
       });
     }
   }
@@ -115,20 +117,21 @@ export default class PropertyController{
     try {
       const { type } = req.params;
       const propertyDetails = await getPropTypeQuery(type);
+      console.log(propertyDetails, "==========>");
       if (!propertyDetails) { 
         return res.status(400).json({
         status: 'error',
-        message: 'property does not exist',
+        error: 'property type does not exist',
       });
     }
-      return res.status(200).json({
+    return res.status(200).json({
         status: 'success',
         data: propertyDetails
       });
      }catch (err) {
        return res.status(500).json({
         status: 'error',
-        message: 'Internal server error',
+        error: 'Server error',
       });
     }
   }
@@ -152,25 +155,25 @@ export default class PropertyController{
       if (!propToBeUpdated) {
         return res.status(400).json({
          status: 'error',
-         message: 'property does not exist',
+         error: 'property does not exist',
        });
      }
       if(req.user.id != propToBeUpdated.owner) {
         return res.status(401).json({
           status: 'error',
-          message: 'unauthorized to perform action',
+          error: 'unauthorized to perform action',
         });
      }
       if (propToBeUpdated.status === status ) {
         return res.status(400).json({
           status: 'error',
-          message: `property is already set to ${status}`,
+          error: `property is already set to ${status}`,
         });
       }
       if (Object.keys(propToBeUpdated.status).length === 0) {
         return res.status(400).json({
           status: 'error',
-          message: "Status key must be defined",
+          error: 'Status key must be defined',
         });
       }
       const data = {id, status};
@@ -182,7 +185,7 @@ export default class PropertyController{
     } catch (err) {
   		return res.status(500).json({
         status: 'error',
-        message: 'Internal server error',
+        error: 'Internal server error',
       });
     }
   }
@@ -206,13 +209,13 @@ export default class PropertyController{
       if (!propsToBeUpdated) {
         return res.status(400).json({
          status: 'error',
-         message: 'property does not exist',
+         error: 'property does not exist',
        });
      }  
      if ( req.user.id != propsToBeUpdated.owner)
       return res.status(401).json({
         status: 'error',
-        message: 'unauthorized',
+        error: 'unauthorized',
       });
      
       const newData = Object.assign(propsToBeUpdated, dataFetch);
@@ -224,7 +227,7 @@ export default class PropertyController{
     } catch (err) {
       return res.status(500).json({
         status: 'error',
-        message: 'Internal server error'
+        error: 'Internal server error'
       });
   }  
 }
@@ -244,25 +247,25 @@ export default class PropertyController{
     if (!propertyId) {
       return res.status(400).json({
        status: 'error',
-       message: 'property does not exist',
+       error: 'property does not exist',
      });
    }
    if ( req.user.id != propertyId.owner)
    return res.status(401).json({
      status: 'error',
-     message: 'unauthorized',
+     error: 'unauthorized',
    });
 
     const deletedProperty = await deleteOneProperty(id);
     if (deletedProperty) {
       return res.status(200).json({
         status: 'success',
-        data: 'Property advert succesfully deleted'
+        data: {message:'Property advert succesfully deleted'}
       });
     }
     return res.status(400).json({
       status: 'error',
-      data: 'Internal server error'
+      error: 'Internal server error'
     });
   }
  }

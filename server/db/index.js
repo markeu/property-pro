@@ -1,11 +1,22 @@
+/* eslint-disable no-undef */
 import { Pool } from 'pg';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-dotenv.config();
 
 const pool = new Pool({
-	connectionString: 'postgres://jtuucwpe:amRj0BBBECleGaS_H2Pyu0xiC7sDoEpI@raja.db.elephantsql.com:5432/jtuucwpe'
+	user: 'uche',
+	host: 'localhost',
+	database: 'property_pro',
+	password: '',
+	port: 5432,
 });
+
+// dotenv.config();
+
+// const pool = new Pool({
+// 	connectionString: process.env.DATABASE_URL
+	
+// });
 
 export default pool;
 
