@@ -17,14 +17,14 @@ const { flagAd, getAllFlag } = FlagController;
 const router = express.Router();
 
 router.post('/',  multerUploads, verifyToken, validation.postValidator, createPropertyAd);
-router.get('/', tryCatch(getAllProperty));
-router.get('/:type/type', tryCatch(getSpecificPropType));
-router.get('/:id', tryCatch(getSpecificProperty));
-router.patch('/:id/sold', verifyToken, tryCatch(updatePropertyAdStatus));
-router.patch('/:id', verifyToken,  tryCatch(updatePropertyAdData));
-router.delete('/:id', verifyToken, tryCatch(deleteProperty));
-router.post('/:id/flag', verifyToken, validation.flagValidator, tryCatch(flagAd));
-router.get('/flag',verifyToken, tryCatch(getAllFlag));
+router.get('/', getAllProperty);
+router.get('/:type/type', getSpecificPropType);
+router.get('/:id', getSpecificProperty);
+router.patch('/:id/sold', verifyToken, updatePropertyAdStatus);
+router.patch('/:id', verifyToken,  updatePropertyAdData);
+router.delete('/:id', verifyToken, deleteProperty);
+router.post('/:id/flag', verifyToken, validation.flagValidator, flagAd);
+router.get('/flag', getAllFlag);
 
 
  

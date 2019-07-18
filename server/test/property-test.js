@@ -16,7 +16,6 @@ should();
 pool.query('SELECT MAX(id) from property', (err, result) => {
 const id = result.rows[0].max + 1;
 
-
 const validPropertyAd = {
 	status: 'Available',
 	price: '7000.8999',
@@ -46,7 +45,7 @@ describe('Property advert test', () => {
             .post('/api/v1/auth/signup')
             .send(User)
             .end(( err, res ) => {
-                token = res.body.data.token;
+				token = res.body.data.token;
                 done();
             });
    
@@ -61,7 +60,7 @@ describe('Property advert test', () => {
           expect(res).to.have.status(201);
           expect(res.body.data).to.be.an('object');
           expect(res.body).to.have.a.property('data');
-          const result = res.body.data;
+		  const result = res.body.data;
 					expect(result).to.have.a.property('id');
 					expect(result.id).to.be.a('number');
 					expect(result).to.have.a.property('price');
@@ -133,15 +132,15 @@ describe('Property advert test', () => {
 		  });
 	  });	
 
-	  // it('Should not fetch a null property type', (done) => {
-		// chai.request(app)
-    //   .get('/api/v1/property/flays/type')
-    //   .set('token', token)
-		//   .end((err, res) => {
-		// 		res.should.have.status(404);
-		// 		done();
-		//   });
-    // }); 
+	  it('Should not fetch a null property type', (done) => {
+		chai.request(app)
+      .get('/api/v1/property/flays/type')
+      .set('token', token)
+		  .end((err, res) => {
+				res.should.have.status(400);
+				done();
+		  });
+    }); 
   
       it('Should not mark prroperty advert as sold when supplied inexistent property id', (done) => {
         chai.request(app)
@@ -154,16 +153,18 @@ describe('Property advert test', () => {
           });
         });	
 
-  // it('Should mark prroperty advert as sold', (done) => {
+  it('Should mark prroperty advert as sold', (done) => {
     
-  //         chai.request(app)
-  //           .patch(`/api/v1/property/${id}/sold`)
-  //           .set('token', token)
-  //           .end((err, res) => {
-  //             res.should.have.status(200);
-  //             done();
-  //           });
-  //         });	
+          chai.request(app)
+            .patch(`/api/v1/property/${id}/sold`)
+			.set('token', token)
+			.send({status: 'sold'})
+            .end((err, res) => {
+              res.should.have.status(200);
+              done();
+            });
+		  });	
+		  
   it('Should update property fields', (done) => {
     chai.request(app)
       .patch(`/api/v1/property/${id}`)
@@ -197,17 +198,6 @@ describe('Property advert test', () => {
         done();
       });
   });	
-
-  
-  it('Should be able to delete property advert', (done) => {
-    chai.request(app)
-      .delete(`/api/v1/property/${id}`)
-      .set('token', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        done();
-      });
-    });	
 
     it('Should not be able to delete property advert', (done) => {
       chai.request(app)

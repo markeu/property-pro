@@ -16,6 +16,7 @@ export default {
 			errors.push(...checkForEmptyFields('first_name', first_name ));
 			errors.push(...checkForEmptyFields('last_name', last_name ));
 			errors.push(...checkForEmptyFields('address', address ));
+			errors.push(...checkForEmptyFields('Password', password ));
 			errors.push(...checkStringFields('first_name', first_name ));
 			errors.push(...checkStringFields('last_name', last_name ));
 	  }

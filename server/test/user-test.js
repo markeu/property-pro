@@ -16,6 +16,7 @@ const token = jwt.sign({ email: 'koporate@gmail.com', password: 'mickey'},
 );
 
 const Token = 'Bearer' + token;
+
 chai.use(chaiHttp);
 const { should, expect } = chai;
 chai.should();

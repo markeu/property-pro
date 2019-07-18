@@ -31,10 +31,11 @@ export default class PropertyController{
             if(req.file) {
                 const file = dataUri(req).content;
                 image = await uploader.upload(file);
+                
             } 
             const imageUrl = image || 'image'         
                 if (imageUrl) {
-                    const data = {...req.body, image_url: imageUrl, owner: req.user.id}
+                    const data = {...req.body, image_url: imageUrl.url || imageUrl, owner: req.user.id}
                     const newAd = await create(data);
                     return res.status(201).json({
                       status: 'success',
@@ -117,8 +118,7 @@ export default class PropertyController{
     try {
       const { type } = req.params;
       const propertyDetails = await getPropTypeQuery(type);
-      console.log(propertyDetails, "==========>");
-      if (!propertyDetails) { 
+      if (!propertyDetails.length) { 
         return res.status(400).json({
         status: 'error',
         error: 'property type does not exist',
@@ -249,7 +249,7 @@ export default class PropertyController{
        status: 'error',
        error: 'property does not exist',
      });
-   }
+   }   
    if ( req.user.id != propertyId.owner)
    return res.status(401).json({
      status: 'error',

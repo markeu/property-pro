@@ -58,7 +58,6 @@ export default class Properties {
     const data = await pool.query(
       `SELECT * FROM property`
       );
-      console.log(data)
       return data.rows;
   }
     /**
@@ -70,7 +69,6 @@ export default class Properties {
    */
   static async getPropTypeQuery(type) {
     const data = await pool.query( "SELECT * FROM property WHERE type= $1;", [type]);
-    console.log(data.rows, '=================== data rows')
     return data.rows;
   }
 
