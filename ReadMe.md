@@ -10,7 +10,7 @@ Property pro Lite is a website where users can upload users can advertise their 
 
 ## Project management information on pivatal tracker
 
-* See the project stories [here](https://www.pivotaltracker.com/n/projects/).
+* See the project stories [here](https://www.pivotaltracker.com/n/projects/2354316)
 
 ## UI Design
 
