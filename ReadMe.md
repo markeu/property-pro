@@ -21,9 +21,7 @@ Property pro Lite is a website where users can upload users can advertise their 
 * CSS
 * Javascript
 
-### GitHub Pages link for UI Frontend
 
-[PropertyPro-lite/UI link](https://chrismeeky.github.io/PropertyPro/UI/)
 
 ### REST API Docs
 
