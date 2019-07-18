@@ -3,7 +3,6 @@ import ServerResponse from '../../responseSpec/spec';
 import { dataUri } from '../../config/multerconfig';
 import { uploader } from '../../config/cloudinaryConfig';
 
-
 const { create, selectOneProperty, getPropQuery, getPropTypeQuery,
         updateAdStatus,updateAdData, deleteOneProperty } = PropertyModel;
 const { successfulRequest, badGetRequest } = ServerResponse;

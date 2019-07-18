@@ -24,7 +24,7 @@ router.patch('/:id/sold', verifyToken, updatePropertyAdStatus);
 router.patch('/:id', verifyToken,  updatePropertyAdData);
 router.delete('/:id', verifyToken, deleteProperty);
 router.post('/:id/flag', verifyToken, validation.flagValidator, flagAd);
-router.get('/flag', getAllFlag);
+router.get('/flag',verifyToken, getAllFlag);
 
 
  
