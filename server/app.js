@@ -1,7 +1,7 @@
 import express from 'express';
+import jsend from 'jsend';
 import bodyParser from 'body-parser';
-import { resolve } from  'path';
-import { cloudinaryConfig } from './config/cloudinaryConfig'
+import { cloudinaryConfig } from './config/cloudinaryConfig';
 import PropertyRoutes from './routes/properties';
 import userRoutes from './routes/users';
 
@@ -17,14 +17,14 @@ app.use('/api/v1/property', PropertyRoutes);
 app.use('/api/v1/auth', userRoutes);
 
 app.get('/', (req, res) => {
-  res.status(200).send({
-    message: 'Welcome to PropertyPro',
-  });
+	res.status(200).send({
+		message: 'Welcome to PropertyPro',
+	});
 });
 
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`PropertyPro started on port ${port}`);
+	console.log(`PropertyPro started on port ${port}`);
 });
 
 export default app;

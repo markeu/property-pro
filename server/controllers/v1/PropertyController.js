@@ -1,10 +1,10 @@
 import {
   postAd, getAllProperty, getSpecificProperty,
   getSpecificPropType, changePropStatus, deleteOneProperty,
-} from '../helpers/propertyHelper';
-import property from '../models/property';
-import { dataUri } from '../config/multerconfig';
-import { uploader } from '../config/cloudinaryConfig'
+} from '../../helpers/propertyHelper';
+import property from '../../models/v1/property';
+import { dataUri } from '../../config/multerconfig';
+import { uploader } from '../../config/cloudinaryConfig'
 
 
 // Post properties.
@@ -15,6 +15,7 @@ class propertyController {
       console.log('file');
       return uploader.upload(file).then((result) => {
         const data = {...req.body, image_url: result.url}
+        
         const newAd = postAd(data);
         return res.status(201).json({
           status: 'success',
@@ -39,7 +40,6 @@ class propertyController {
 
     return res.status(200).send({
       status: 'success',
-      error: 'All Property Ads retrieved successfully',
       data: allProperty,
     });
   }
@@ -51,7 +51,7 @@ class propertyController {
     if (!property1.length) {
       return res.status(404).json({
         status: 'error',
-        error: 'Property Type does not exist',
+        message: 'Property Type does not exist',
       });
     }
     return res.status(200).json({
@@ -67,7 +67,7 @@ class propertyController {
     if (!property2.length) {
       return res.status(404).json({
         status: 'error',
-        error: 'Property does not exist',
+        message: 'Property does not exist',
       });
     }
 
