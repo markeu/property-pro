@@ -66,11 +66,6 @@ c. start the application
 npm start
 ```
 
-## Test the application
-
-```bash
-npm run test
-```
 
 ## Test the endpoints
 
@@ -98,5 +93,5 @@ GET  | api/v1/property-advert/<:property-id>  | View a specific property advert 
 
 ## Author
 
-* [Uche Uzochukwu]
+* Uche Uzochukwu Mark
 
