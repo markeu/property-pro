@@ -6,7 +6,7 @@
 
 # PropertyPro-lite
 
-Property pro Lite is a website where users can upload users can advertise their property for sale. Users can lookup property advertised for sale or place their own property for sale.
+Property pro Lite is a platform where users can upload and advertise their property for sale. Users can lookup property advertised for sale or place their own property for sale.
 
 ## Project management information on pivatal tracker
 
